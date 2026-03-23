@@ -1,0 +1,2 @@
+bun run analyze
+bun run check-types

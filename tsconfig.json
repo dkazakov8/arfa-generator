@@ -1,0 +1,25 @@
+{
+  "include": ["src", "scripts", "units", "vitepress", "vitepress/.vitepress/*"],
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dist",
+
+    "target": "ES2023",
+    "lib": ["ES2023"],
+
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+
+    "strict": true,
+    "noEmit": false,
+    "declaration": true,
+    "skipLibCheck": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "emitDeclarationOnly": true,
+    "allowArbitraryExtensions": true,
+    "allowImportingTsExtensions": true,
+
+    "types": ["bun"]
+  }
+}

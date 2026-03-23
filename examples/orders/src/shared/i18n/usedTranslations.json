@@ -1,0 +1,41 @@
+{
+  "pages/customers/CustomerStatusBadge/active": {
+    "defaultValue": "Active"
+  },
+  "pages/customers/CustomerStatusBadge/archived": {
+    "defaultValue": "Archived"
+  },
+  "pages/customers/CustomerStatusBadge/blocked": {
+    "defaultValue": "Blocked"
+  },
+  "pages/invoices/InvoiceStatusBadge/draft": {
+    "defaultValue": "Draft"
+  },
+  "pages/invoices/InvoiceStatusBadge/overdue": {
+    "defaultValue": "Overdue"
+  },
+  "pages/invoices/InvoiceStatusBadge/paid": {
+    "defaultValue": "Paid"
+  },
+  "pages/invoices/InvoiceStatusBadge/sent": {
+    "defaultValue": "Sent"
+  },
+  "pages/invoices/InvoiceStatusBadge/void": {
+    "defaultValue": "Void"
+  },
+  "pages/orders/OrderStatusBadge/cancelled": {
+    "defaultValue": "Cancelled"
+  },
+  "pages/orders/OrderStatusBadge/confirmed": {
+    "defaultValue": "Confirmed"
+  },
+  "pages/orders/OrderStatusBadge/draft": {
+    "defaultValue": "Draft"
+  },
+  "pages/orders/OrderStatusBadge/packed": {
+    "defaultValue": "Packed"
+  },
+  "pages/orders/OrderStatusBadge/shipped": {
+    "defaultValue": "Shipped"
+  }
+}

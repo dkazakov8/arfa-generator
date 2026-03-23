@@ -1,0 +1,8 @@
+{
+  "size-generator/index": "9.39kb",
+  "size-api-contract-check/builder": "3.94kb",
+  "size-api-contract-check/checker": "0.8kb",
+  "coverage": "99.83 %",
+  "units": 300,
+  "size-consumeFeedback": "1.9kb"
+}
