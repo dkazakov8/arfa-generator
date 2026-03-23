@@ -1,0 +1,69 @@
+{
+  "name": "@arfa-tools/generator",
+  "author": "Dmitry Kazakov",
+  "license": "MIT",
+  "type": "module",
+  "version": "0.0.1-alpha.24",
+  "description": "File generator for frontend projects",
+  "homepage": "https://dkazakov8.github.io/arfa-generator/",
+  "bugs": {
+    "url": "https://github.com/dkazakov8/arfa-generator/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dkazakov8/arfa-generator.git"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "ncu": "bun outdated --recursive",
+    "npm-publish": "bun run build && cd ./dist && bun publish --access public --tag latest && cd ../",
+    "clear-modules": "rm -rf ./node_modules ./examples/*/node_modules",
+    "clear-tmp": "rm -rf ./units/api-contract-check/tmp ./units/generator/tmp",
+    "upd": "bun run clear-modules && bun install --prefer-offline",
+    "updg": "bun run clear-modules && bun install --prefer-offline --filter ./ && bun install --global @arfa-tools/generator@latest",
+    "build": "rm -rf ./dist && tsc -b tsconfig.build.json && bun ./scripts/build.ts",
+    "build-watch": "rm -rf ./dist && tsc -b tsconfig.build.json && bun --watch ./scripts/build.ts",
+    "bench": "bun units/api-contract-check/builder.bench.ts && bun units/generator/FileGenerator.bench.ts && bun run clear-tmp",
+    "test": "bun test --coverage --reporter=junit --reporter-outfile=./test-results/junit.xml && bun scripts/saveTestMetrics.ts && bun run clear-tmp",
+    "test-watch": "bun test --watch",
+    "analyze": "biome check --no-errors-on-unmatched --write .",
+    "check-types": "bun check",
+    "full-check": "bun run analyze && bun run check-types && bun run build && bun run test && bun run example:analyze",
+    "example:analyze": "bun run --cwd examples/orders biome check --no-errors-on-unmatched --write . && bun check -p examples/orders",
+    "docs:dev": "vitepress dev vitepress",
+    "docs:preview": "bun run docs:build && vitepress preview vitepress",
+    "docs:build": "vitepress build vitepress --outDir docs"
+  },
+  "dependencies": {
+    "chokidar": "5.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.0",
+    "@biomejs/biome": "2.5.11",
+    "@biomejs/wasm-nodejs": "2.5.11",
+    "husky": "9.1.7",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "@typescript/native": "npm:typescript@7.0.2",
+    "vitepress": "2.0.0-alpha.17",
+    "vue": "^3.5.27",
+    "shiki": "^3.22.0",
+    "vitest": "4.1.11",
+    "@types/markdown-it": "14.1.2"
+  },
+  "peerDependencies": {
+    "typescript": ">=5.0"
+  },
+  "engines": {
+    "node": ">=22.17.0"
+  },
+  "imports": {
+    "#builder": "./src/api-contract-check/builder.ts"
+  },
+  "workspaces": [
+    "examples/*"
+  ],
+  "overrides": {
+    "@arfa-tools/generator": "file:./dist"
+  },
+  "packageManager": "bun@1.4.3"
+}

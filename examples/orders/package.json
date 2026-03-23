@@ -1,0 +1,29 @@
+{
+  "name": "@arfa-tools/generator-orders-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "parallel": "node ./builder/parallel.ts",
+    "parallel-watch": "node ./builder/parallel.ts --watch",
+    "generator-first": "node ./builder/generatorFirst.ts",
+    "generator-first-watch": "node ./builder/generatorFirst.ts --watch",
+    "feedback": "node ./node_modules/@arfa-tools/generator/consumeFeedback.mjs --path=.llm/history.jsonl --wait-timeout=30000"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "6.1.1",
+    "@arfa-tools/generator": "0.0.1-alpha.24",
+    "vite": "8.2.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "26.4.0",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "@typescript/native": "npm:typescript@7.0.2",
+    "@biomejs/biome": "2.5.11",
+    "@biomejs/wasm-nodejs": "2.5.11"
+  }
+}

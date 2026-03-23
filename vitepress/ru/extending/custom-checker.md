@@ -1,0 +1,1 @@
+<!-- @include: ../extending.md#customChecker -->

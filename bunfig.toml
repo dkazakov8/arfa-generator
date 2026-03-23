@@ -1,0 +1,11 @@
+[install]
+auto = "disable"
+linker = "isolated"
+
+[test]
+coverageReporter = ["text", "lcov"]
+coverageDir = "./test-results/coverage"
+coveragePathIgnorePatterns = [
+  "src/generator/BaseChecker.ts",
+  "src/generator/utils/colors.ts",
+]
