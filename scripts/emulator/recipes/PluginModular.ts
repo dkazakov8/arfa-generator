@@ -8,11 +8,11 @@ export const pluginModularRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginModular-feature-entrypoints',
     title: {
       ru: 'центральные entrypoint feature-модулей',
-      en: '',
+      en: 'Central entry points for feature modules',
     },
     description: {
       ru: 'Плагин собирает index.ts из разных feature-модулей в один файл с namespace-экспортами. Имя экспорта берется из родительской папки',
-      en: '',
+      en: 'The plugin collects index.ts files from different feature modules into a single file with namespace exports. Each export name comes from the parent folder',
     },
     plugin: ({ rootDir }) =>
       new PluginModular([
@@ -63,11 +63,11 @@ export const pluginModularRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginModular-page-types',
     title: {
       ru: 'типы страниц',
-      en: '',
+      en: 'Page types',
     },
     description: {
       ru: 'Плагин создает типы либо реалтаймовые объекты, описывающие store и actions каждой страницы при их наличии',
-      en: '',
+      en: 'The plugin creates types or runtime objects describing each page’s store and actions, where present',
     },
     plugin: ({ rootDir }) =>
       new PluginModular([
@@ -144,11 +144,11 @@ export const pluginModularRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginModular-feature-routes',
     title: {
       ru: 'маршруты feature-модулей',
-      en: '',
+      en: 'Feature module routes',
     },
     description: {
       ru: 'Плагин находит feature-модули с файлом routes.ts и объединяет их маршруты. Добавление routes.ts подключает модуль автоматически',
-      en: '',
+      en: 'The plugin finds feature modules with a routes.ts file and combines their routes. Adding routes.ts includes the module automatically',
     },
     plugin: ({ rootDir }) =>
       new PluginModular([
@@ -212,11 +212,11 @@ export const pluginModularRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginModular-feature-manifest',
     title: {
       ru: 'манифест feature-модулей',
-      en: '',
+      en: 'Feature module manifest',
     },
     description: {
       ru: 'По набору файлов в каждой директории генерируется типизированное описание возможностей feature-модулей',
-      en: '',
+      en: 'Generates a typed description of each feature module’s capabilities based on the files in its directory',
     },
     plugin: ({ rootDir }) =>
       new PluginModular([

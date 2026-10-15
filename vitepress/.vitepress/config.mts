@@ -7,8 +7,8 @@ import { labelsPlugin } from './theme/labelsPlugin';
 import { wrapTransformer } from './theme/wrapTransformer';
 
 export const sidebarConfig = getSidebarDocumentation({
-  overview: { ru: 'Обзор и назначение', en: 'Overview' },
-  installation: { ru: 'Установка и настройка', en: 'Installation' },
+  overview: { ru: 'Обзор и назначение', en: 'Overview and purpose' },
+  installation: { ru: 'Установка и настройка', en: 'Installation and setup' },
   fileGeneratorApi: { ru: 'FileGenerator API', en: 'FileGenerator API' },
   llmCliFeedback: { ru: 'LLM / CLI feedback', en: 'LLM / CLI feedback' },
 
@@ -30,8 +30,8 @@ export const sidebarConfig = getSidebarDocumentation({
   customChecker: { ru: 'Свой чекер', en: 'Custom checker' },
 
   apiContractCheck: { ru: 'api-contract-check', en: 'api-contract-check' },
-  schemaGeneration: { ru: 'Генерация схем валидации', en: 'Schema generation' },
-  payloadValidation: { ru: 'Валидация данных', en: 'Call validators' },
+  schemaGeneration: { ru: 'Генерация схем валидации', en: 'Validation schema generation' },
+  payloadValidation: { ru: 'Валидация данных', en: 'Payload validation' },
   incrementalGeneration: { ru: 'Инкрементальная генерация', en: 'Incremental generation' },
 });
 
@@ -46,7 +46,7 @@ export default defineConfig({
     },
   },
   title: 'ARFA Generator',
-  description: 'A reactive, framework-agnostic router in 2 KB',
+  description: 'The infrastructure core of a development workflow for automating project architecture',
   base: '/arfa-generator/',
   head: [['link', { rel: 'icon', href: '/arfa-generator/file.svg' }]],
   appearance: { initialValue: 'dark' },

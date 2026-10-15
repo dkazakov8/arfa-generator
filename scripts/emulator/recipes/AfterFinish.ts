@@ -51,11 +51,11 @@ export const afterFinishRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'AfterFinish-codex-write',
     title: {
       ru: 'Codex в afterFinish',
-      en: '',
+      en: 'Codex in afterFinish',
     },
     description: {
       ru: 'В watch-режиме при наличии <code>// AGENT</code> в изменённых файлах запускается Codex, который выполняет задачу и удаляет маркер для избежания бесконечного цикла',
-      en: '',
+      en: 'In watch mode, <code>// AGENT</code> in changed files triggers Codex, which completes the task and removes the marker to prevent an infinite loop',
     },
     afterFinish:
       () =>

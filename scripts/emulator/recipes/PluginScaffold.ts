@@ -8,11 +8,11 @@ export const pluginScaffoldRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginScaffold-feature-slice',
     title: {
       ru: 'новая feature',
-      en: '',
+      en: 'New feature',
     },
     description: {
       ru: 'Marker создает UI и публичный API feature-slice. После удаления marker компонент можно менять вручную: плагин больше его не переписывает',
-      en: '',
+      en: 'The marker creates the UI and public API for a feature slice. Once the marker is removed, the component can be edited manually: the plugin no longer overwrites it',
     },
     plugin: () =>
       new PluginScaffold([
@@ -67,11 +67,11 @@ export const pluginScaffoldRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginScaffold-next-page',
     title: {
       ru: 'маршрут Next.js App Router',
-      en: '',
+      en: 'Next.js App Router route',
     },
     description: {
       ru: 'Marker в папке маршрута создает page.tsx и loading.tsx. Если повторно добавить marker при существующем page.tsx, плагин сохранит оба файла и сообщит о конфликте',
-      en: '',
+      en: 'A marker in the route folder creates page.tsx and loading.tsx. If the marker is added again while page.tsx already exists, the plugin preserves both files and reports a conflict',
     },
     plugin: () =>
       new PluginScaffold([
@@ -110,11 +110,11 @@ export const pluginScaffoldRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginScaffold-component-story',
     title: {
       ru: 'компонент с CSS и Storybook',
-      en: '',
+      en: 'Component with CSS and Storybook',
     },
     description: {
       ru: 'Один marker создает React-компонент, CSS module и Storybook story рядом с ним',
-      en: '',
+      en: 'A single marker creates a React component, a CSS module, and a Storybook story alongside it',
     },
     plugin: () =>
       new PluginScaffold([

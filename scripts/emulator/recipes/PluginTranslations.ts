@@ -9,11 +9,11 @@ export const pluginTranslationsRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginTranslations-component-messages',
     title: {
       ru: 'сообщения рядом с компонентами',
-      en: '',
+      en: 'Messages alongside components',
     },
     description: {
       ru: 'Все messages.ts в проекте собираются в единый JSON. При удалении сообщения или целого файла устаревшие ключи удаляются автоматически.<br/>В данной схеме только один язык, поэтому в итоговом JSON только <code>defaultValue</code> — это удобно для передачи во внешнюю систему переводов',
-      en: '',
+      en: 'All messages.ts files in the project are collected into a single JSON file. When a message or an entire file is deleted, obsolete keys are removed automatically.<br/>This setup uses only one language, so the resulting JSON contains only <code>defaultValue</code> — convenient for passing to an external translation system',
     },
     plugin: ({ rootDir }) =>
       new PluginTranslations([
@@ -108,11 +108,11 @@ export const messages = createMessages('features/orders/OrderStatusBadge', {
     id: 'PluginTranslations-sync',
     title: {
       ru: 'синхронизация и перевод сообщений',
-      en: '',
+      en: 'Message synchronization and translation',
     },
     description: {
       ru: 'В этом примере сообщения читаются из JSON. Плагин заполняет отсутствующие переводы через <code>translate</code>, сохраняет существующие и <b>обновляет</b> <code>defaultValue</code> из исходников.<br/>Пример подходит для нескольких языков без внешней системы переводов, когда переводы делаются в полуручном режиме',
-      en: '',
+      en: 'In this example, messages are read from JSON. The plugin fills in missing translations through <code>translate</code>, preserves existing translations, and <b>updates</b> <code>defaultValue</code> from the source files.<br/>This example works for multiple languages without an external translation system, with translations handled semi-manually',
     },
     plugin: ({ rootDir }) =>
       new PluginTranslations([

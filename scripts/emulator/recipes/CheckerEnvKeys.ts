@@ -10,11 +10,11 @@ export const checkerEnvKeysRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'CheckerEnvKeys-env-files',
     title: {
       ru: 'синхронизация env-файлов',
-      en: '',
+      en: 'Keeping env files in sync',
     },
     description: {
       ru: 'Чекер сравнивает ключи в .env и .example.env и сообщает о расхождении',
-      en: '',
+      en: 'The checker compares keys in .env and .example.env and reports mismatches',
     },
     checker: ({ rootDir }) =>
       new CheckerEnvKeys({
@@ -77,11 +77,11 @@ HOT_RELOAD=false`,
     id: 'CheckerEnvKeys-parsed-env',
     title: {
       ru: 'env-файлы и типизированный env-объект',
-      en: '',
+      en: 'Env files and a typed env object',
     },
     description: {
       ru: 'Ключи файлов сравниваются с ключами готового env-объекта. Так чекер находит переменные, объявленные в коде, но забытые в env-файлах',
-      en: '',
+      en: 'Keys from the files are compared with keys from an existing env object. This lets the checker find variables declared in code but missing from the env files',
     },
     checker: ({ rootDir }) =>
       new CheckerEnvKeys({
@@ -171,11 +171,11 @@ HOT_RELOAD=false`,
     id: 'CheckerEnvKeys-duplicate-keys',
     title: {
       ru: 'дубли ключей в env-файле',
-      en: '',
+      en: 'Duplicate keys in an env file',
     },
     description: {
       ru: 'Для демонстрации дублей в данном случае используется построчное чтение',
-      en: '',
+      en: 'This example reads the file line by line to demonstrate duplicate detection',
     },
     checker: ({ rootDir }) =>
       new CheckerEnvKeys({

@@ -6,11 +6,11 @@ export const pluginReexportRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginReexport-basic',
     title: {
       ru: 'валидация содержимого файлов',
-      en: '',
+      en: 'File content validation',
     },
     description: {
       ru: 'В файл реэкспорта попадают только файлы, экспортирующие функцию с именем файла, что позволяет проверять нейминг и валидировать содержимое',
-      en: '',
+      en: 'Only files that export a function with the same name as the file are included in the re-export file, allowing naming checks and content validation',
     },
     plugin: () =>
       new PluginReexport([
@@ -75,11 +75,11 @@ export const pluginReexportRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginReexport-component',
     title: {
       ru: 'package.json указывает на определенный файл',
-      en: '',
+      en: 'package.json points to a specific file',
     },
     description: {
       ru: 'В папках компонентов часто удобнее держать один package.json вместо index.ts. Валидация через validateContent для главного файла при этом недоступна',
-      en: '',
+      en: 'In component folders, keeping a single package.json instead of index.ts is often more convenient. In this setup, validateContent cannot be used to validate the main file',
     },
     plugin: () =>
       new PluginReexport([
@@ -125,11 +125,11 @@ export const pluginReexportRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginReexport-component-index',
     title: {
       ru: 'index.ts вместо _reexport.ts и package.json',
-      en: '',
+      en: 'index.ts instead of _reexport.ts and package.json',
     },
     description: {
       ru: 'При этой настройке генерируется только index.ts; включена дополнительная фильтрация',
-      en: '',
+      en: 'This configuration generates only index.ts, with additional filtering enabled',
     },
     plugin: () =>
       new PluginReexport([
@@ -182,11 +182,11 @@ export const pluginReexportRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginReexport-deep',
     title: {
       ru: 'глубокая генерация реэкспортов',
-      en: '',
+      en: 'Nested re-export generation',
     },
     description: {
       ru: 'В utils и всех вложенных папках создаются _reexport.ts и package.json. Это позволяет получать вложенные экспорты через единый импорт из utils',
-      en: '',
+      en: 'Creates _reexport.ts and package.json in utils and all nested folders. This makes nested exports available through a single import from utils',
     },
     plugin: () =>
       new PluginReexport([
@@ -248,11 +248,11 @@ export const pluginReexportRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginReexport-icons',
     title: {
       ru: 'реэкспорт ассетов с tree-shaking',
-      en: '',
+      en: 'Asset re-exports with tree-shaking',
     },
     description: {
       ru: 'Как правило svg, png и т.п. файлы считаются бандлерами как экспортирующие default. В данном случае реэкспортный файл назван по имени папки',
-      en: '',
+      en: 'Bundlers generally treat svg, png, and similar files as having a default export. In this example, the re-export file is named after the folder',
     },
     plugin: () =>
       new PluginReexport([
@@ -302,11 +302,11 @@ export const pluginReexportRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginReexport-type-only',
     title: {
       ru: 'раздельный реэкспорт типов и значений',
-      en: '',
+      en: 'Separate re-exports for types and values',
     },
     description: {
       ru: 'Файлы с суффиксом .types.ts реэкспортируются через export type *, а остальные остаются runtime-экспортами',
-      en: '',
+      en: 'Files with the .types.ts suffix are re-exported through export type *, while the others remain runtime exports',
     },
     plugin: () =>
       new PluginReexport([
@@ -369,11 +369,11 @@ export const pluginReexportRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginReexport-feature-public-api',
     title: {
       ru: 'публичный API feature-модулей',
-      en: '',
+      en: 'Public API for feature modules',
     },
     description: {
       ru: 'Для каждого feature-модуля создается публичный entrypoint, в который не попадают тесты, stories, стили и приватные файлы',
-      en: '',
+      en: 'Creates a public entry point for each feature module, excluding tests, stories, styles, and private files',
     },
     plugin: () =>
       new PluginReexport([
@@ -446,11 +446,11 @@ export const pluginReexportRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginReexport-lazy-pages',
     title: {
       ru: 'lazy-загрузка React-страниц',
-      en: '',
+      en: 'Lazy loading React pages',
     },
     description: {
       ru: 'Entry-файл создает React.lazy-компонент для каждой страницы и обновляется при добавлении или удалении файлов',
-      en: '',
+      en: 'The entry file creates a React.lazy component for each page and updates when files are added or deleted',
     },
     plugin: () =>
       new PluginReexport([
@@ -513,11 +513,11 @@ export const pluginReexportRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginReexport-root-store',
     title: {
       ru: 'реэкспорт одним объектом или классом',
-      en: '',
+      en: 'Re-exports as a single object or class',
     },
     description: {
       ru: 'В ряде случаев не обязательно поддерживать строгое именование переменных внутри файлов (в данном случае везде Store), так как семантичные имена выводятся из имен файлов',
-      en: '',
+      en: 'In some cases, strict variable naming within files is unnecessary (here, every file uses Store), because meaningful names are derived from the file names',
     },
     plugin: () =>
       new PluginReexport([
@@ -577,11 +577,11 @@ export const pluginReexportRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginReexport-reducers',
     title: {
       ru: 'сборка reducer map',
-      en: '',
+      en: 'Building a reducer map',
     },
     description: {
       ru: 'Тот же паттерн агрегации можно использовать для сборки Redux reducers: имя каждого поля выводится из имени файла',
-      en: '',
+      en: 'The same aggregation pattern can be used to assemble Redux reducers: each field name is derived from the file name',
     },
     plugin: () =>
       new PluginReexport([

@@ -18,11 +18,11 @@ export const checkerBoundariesRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'CheckerBoundaries-api-layers',
     title: {
       ru: 'импорты между слоями API и models',
-      en: '',
+      en: 'Imports between the API and models layers',
     },
     description: {
       ru: 'API-файлы могут импортировать модели, но не соседние API-файлы. Модели могут импортировать только друг друга; тестовые файлы исключены из проверки',
-      en: '',
+      en: 'API files can import models, but not neighboring API files. Models can only import each other; test files are excluded from the check',
     },
     checker: ({ rootDir }) =>
       new CheckerBoundaries({
@@ -133,11 +133,11 @@ export type TypeOrderSummary = Pick<TypeOrder, 'id'>;`,
     id: 'CheckerBoundaries-feature-isolation',
     title: {
       ru: 'изоляция feature-модулей',
-      en: '',
+      en: 'Feature module isolation',
     },
     description: {
       ru: 'sameTopLevel разрешает импорты внутри одного feature-модуля и из shared, но останавливает прямой импорт соседнего модуля даже через алиас и при широком allow.imports',
-      en: '',
+      en: 'sameTopLevel allows imports within the same feature module and from shared, but blocks direct imports from neighboring modules, even through aliases and with broad allow.imports patterns',
     },
     checker: ({ rootDir }) =>
       new CheckerBoundaries({
@@ -231,11 +231,11 @@ export const orderLabel = (order: TypeOrder) => formatId(order.id);`,
     id: 'CheckerBoundaries-runtime-imports',
     title: {
       ru: 'внешние пакеты и Node.js',
-      en: '',
+      en: 'External packages and Node.js',
     },
     description: {
       ru: 'Серверным файлам разрешены node:* импорты, а клиентским — внешние пакеты. Каждое разрешение действует отдельно',
-      en: '',
+      en: 'Server files are allowed to use node:* imports, while client files are allowed to import external packages. Each permission applies independently',
     },
     checker: ({ rootDir }) =>
       new CheckerBoundaries({

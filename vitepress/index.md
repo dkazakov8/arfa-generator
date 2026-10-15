@@ -3,7 +3,7 @@ layout: home
 
 hero:
   name: "ARFA Generator"
-  tagline: A reactive, framework-agnostic router in 2 KB
+  tagline: The infrastructure core of a development workflow for automating project architecture
   image:
     src: /file.svg
   actions:
@@ -15,16 +15,16 @@ hero:
       link: https://github.com/dkazakov8/arfa-generator
 
 features:
-  - title: Fits into your stack
-    details: Works with React, Preact, Solid.js, Vue, Vanilla, and even without JS in MPA
-  - title: Open adapter interface
-    details: Integrates seamlessly with MobX, Observable, Solid.js signals, Vue reactivity, and other proxy-based libraries
-  - title: Centralized
-    details: All routing behavior lives in a single object with built-in lazy-loading support
-  - title: Feature-rich
-    details: Data loading and permission checks on navigation, navigation blocking, redirect chains, query and dynamic parameters validation
-  - title: Great DX
-    details: Strict TypeScript typing, no external dependencies, thorough test coverage, and both CJS and ESM builds for compatibility
-  - title: SSR / MPA / Widget modes
-    details: Easy to set up with minimal boilerplate
+  - title: Generation, checks, and builds
+    details: In a single pipeline with cascading iterations and incremental watch mode
+  - title: Logs for developers and LLM agents
+    details: Printed to the console or retrieved through the CLI in Markdown format
+  - title: Configuration in TypeScript
+    details: Keeps the full flexibility of code, unlike configuration DSLs
+  - title: A broad range of plugins
+    details: Automate routine tasks and keep code consistent
+  - title: Runtime validators from TypeScript
+    details: Ensure that incoming API data matches your project’s types
+  - title: Architecture and quality checks
+    details: In one process instead of separate runs of tsc, eslint, import boundary checks, and other tools
 ---

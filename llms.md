@@ -1,63 +1,63 @@
-# ARFA Generator — документация для LLM
+# ARFA Generator — documentation for LLMs
 
-# Обзор и назначение
+# Overview and purpose
 
-Версия: 0.0.1-alpha.24
-Размер: 9.39 KB
-Покрытие: 99.83 % в 300 тестах
+Version: 0.0.1-alpha.24
+Size: 9.39 KB
+Coverage: 99.83 % across 300 tests
 
-**ARFA Generator** — инфраструктурное ядро процесса разработки для автоматизации архитектуры проекта. Он объединяет
-генерацию файлов, архитектурные проверки и инструменты контроля качества в единый пайплайн с возможностью подключения
-сборки и общим выводом результатов для разработчиков (консоль) и LLM-агентов (CLI feedback).
+**ARFA Generator** is the infrastructure core of a development workflow for automating project architecture. It brings
+file generation, architectural checks, and quality tools together in a single pipeline, with optional build integration
+and a unified report for developers (console output) and LLM agents (CLI feedback).
 
-Инструмент создан для **A**utomation **R**eady **F**rontend **A**rchitecture — подхода к построению легко поддерживаемых
-долгоживущих архитектур с возможностью автоматизации, — но подходит и для проектов с другими архитектурными принципами.
+The tool was created for **A**utomation **R**eady **F**rontend **A**rchitecture — an approach to building maintainable,
+long-lived architectures that support automation — but also works for projects with other architectural principles.
 
-Библиотека использует строгую типизацию, имеет минимум зависимостей (chokidar и TypeScript как peer dependency) и
-широкое покрытие тестами.
+The library uses strict typing, has minimal dependencies (chokidar and TypeScript as a peer dependency), and has
+extensive test coverage.
 
-Использование возможно в трех режимах:
+It can be used in three modes:
 
-- **единоразовый codegen** — выполнение генерации и проверок до запуска процесса сборки или по необходимости
-- **параллельный watch** — бандлер и генератор одновременно следят за изменениями (при этом будут лишние пересборки)
-- **generator-first** — только watch генератора, а сборка вызывается после стабилизации кодовой базы в `afterCheckers`
-  (наиболее эффективный режим, позволяющий строить пайплайн с единообразным выводом логов и ошибок)
+- **one-time codegen** — run generation and checks before the build process starts, or as needed
+- **parallel watch** — the bundler and generator watch for changes simultaneously (which causes extra rebuilds)
+- **generator-first** — only the generator watches for changes, and the build runs in `afterCheckers` once the codebase
+  has stabilized (the most efficient mode, providing a pipeline with consistent log and error output)
 
-## Единый пайплайн
+## A unified pipeline
 
-**ARFA Generator** становится связующим звеном между всеми инструментами — будь то операции, влияющие на исходные файлы,
-внешние проверки или создание артефактов бандлером.
+**ARFA Generator** connects all the tools in your workflow, whether they modify source files, run external checks,
+or produce artifacts through a bundler.
 
-В библиотеку включены плагины и чекеры наиболее широкого назначения, но под конкретный проект можно создать свой набор.
-Пример возможностей:
+The library includes plugins and checkers for common use cases, but you can create your own set for a specific project.
+Here are some examples of what it can do:
 
-На основе файловой структуры и имен файлов можно создавать:
+Based on the folder structure and file names, you can generate:
 
-- barrel-файлы `_reexport.ts` или `index.ts` с реэкспортами всех публичных файлов в папке
-- локальный `package.json` или `index.ts`, указывающий на главный файл компонента
-- сборные структуры с типами — например, собирая `pages/*/store.ts` файлы
-- карты роутинга для асинхронных импортов и т.п.
+- `_reexport.ts` or `index.ts` barrel files that re-export all public files in a folder
+- a local `package.json` or `index.ts` pointing to a component’s main file
+- aggregated structures with types — for example, by collecting `pages/*/store.ts` files
+- routing maps for asynchronous imports, and more
 
-Если добавить к структуре чтение содержимого файлов, то можно:
+By also reading file contents, you can:
 
-- собирать ключи локализации и дефолтные значения в один или несколько JSON-файлов для передачи в систему переводов
-- создавать из TypeScript-контрактов схемы валидации
-- собирать документацию, проверять дубликаты и единообразие нейминга и т.п.
+- collect localization keys and default values into one or more JSON files to pass to a translation system
+- create validation schemas from TypeScript contracts
+- assemble documentation, check for duplicates and consistent naming, and more
 
-Если подключить чекеры, то можно:
+By adding checkers, you can:
 
-- проверять типы и форматирование
-- проверять синхронизированность env-параметров
-- проверять границы импортов модулей
-- использовать любые сторонние инструменты через CLI и т.п.
+- check types and formatting
+- check that environment variable sets are in sync
+- check module import boundaries
+- use any third-party tools through their CLI, and more
 
-## Требования
+## Requirements
 
-Требуются TypeScript 5 или 6 (для TS API) и Node.js `>=22.17.0`. Пакет поставляется только в формате ESM.
+Requires TypeScript 5 or 6 (for the TS API) and Node.js `>=22.17.0`. The package is distributed as ESM only.
 
 ---
 
-# Установка и настройка
+# Installation and setup
 
 **npm**
 
@@ -80,17 +80,17 @@ pnpm add -D @arfa-tools/generator
 bun add -D @arfa-tools/generator
 ```
 
-Для запуска создайте отдельный файл, например `builder/generator.ts`, и вызывайте через Node.js API в своём пайплайне
-сборки. CLI доступен только для получения логов.
+To get started, create a separate file, such as `builder/generator.ts`, and call it through the Node.js API in your
+build pipeline. The CLI is available only for retrieving logs.
 
-Для быстрой оценки с помощью ИИ, будет ли полезен генератор в вашем проекте, можно
-использовать llms.md — это Markdown-версия текущей
-документации. Также можно на практике посмотреть на работу, использовав готовые Примеры.
+To quickly assess with AI whether the generator would be useful in your project, you can
+use llms.md, a Markdown version of the current
+documentation. You can also see it in action using the ready-to-run examples.
 
-## Быстрый старт
+## Quick start
 
-Ниже — минимальный пример настройки и запуска с PluginReexport, который создаёт
-`_reexport.ts` и `package.json` в папке `src/models`.
+Below is a minimal setup and launch example using PluginReexport, which creates
+`_reexport.ts` and `package.json` in the `src/models` folder.
 
 ```ts
 import path from 'node:path';
@@ -133,7 +133,7 @@ await generator.runFullCycle({
 });
 ```
 
-Для локальной разработки после основной сборки можно подключить watch-процесс.
+For local development, you can start a watch process after the initial build.
 
 ```ts
 await generator.startWatch({
@@ -147,17 +147,17 @@ await generator.startWatch({
 });
 ```
 
-## Вывод логов
+## Log output
 
-`logsToConsole` поддерживает режимы `minimal` и `normal`. Для первых запусков и настройки рекомендуется использовать
-`normal`, чтобы проверить скорость работы каждого этапа генерации. Для повседневного использования — компактный
-`minimal`.
+`logsToConsole` supports `minimal` and `normal` modes. For initial runs and setup, `normal` is recommended
+so you can check how long each generation stage takes. For everyday use, choose the compact
+`minimal` mode.
 
-Подробнее познакомиться с форматом вывода можно в примерах работы плагинов и чекеров.
+You can explore the output format in more detail in the plugin and checker examples.
 
-## Форматирование
+## Formatting
 
-Для форматирования контента сгенерированных файлов перед записью на диск используйте функцию `format`.
+Use the `format` function to format generated file content before it is written to disk.
 
 ```ts
 const generator = new FileGenerator({
@@ -192,34 +192,34 @@ const generator = new FileGenerator({
 
 # FileGenerator
 
-**ARFA Generator** работает итеративно `emit → write → cleanup`, что позволяет нескольким плагинам последовательно
-изменять файлы, пока кодовая база не стабилизируется, а затем выполняются чекеры для проверки корректности и остальной
-жизненный цикл.
+**ARFA Generator** runs iteratively through `emit → write → cleanup`, allowing multiple plugins to modify files
+in sequence until the codebase stabilizes. Checkers then validate the result, followed by the remaining
+lifecycle steps.
 
 ```ts
 ci?: boolean
 ```
 
-Режим CI, по умолчанию `false`. При `true` вызовы `startWatch()` и параметр `historyPath` игнорируются, а при возникновении
-ошибок выбрасывается исключение
+CI mode; defaults to `false`. When `true`, `startWatch()` calls and the `historyPath` option are ignored,
+and errors cause an exception to be thrown
 
 ```ts
 rootDir: string
 ```
 
-Корневая директория для glob-паттернов плагинов и watch-режима. Генератор не меняет файлы за её пределами
+The root directory for plugin glob patterns and watch mode. The generator does not modify files outside it
 
 ```ts
 plugins: Array<BasePlugin>
 ```
 
-Плагины, которые предлагают файлы для записи. Выполняются в порядке объявления на каждой итерации
+Plugins that propose files to write. Executed in declaration order on each iteration
 
 ```ts
 checkers?: Array<BaseChecker>
 ```
 
-Проверки, которые запускаются после завершения работы плагинов и каскадных изменений
+Checks that run after the plugins and all cascading changes have completed
 
 ```ts
 format?: (files: {
@@ -237,28 +237,29 @@ format?: (files: {
 }>
 ```
 
-Функция форматирования содержимого файлов, предложенных плагинами. Вызывается перед сравнением с содержимым на диске и
-записью
+A function for formatting the content of files proposed by plugins. Called before comparing the content with
+the file on disk and writing it
 
 ```ts
 headerTemplate?: string
 ```
 
-Общий текст, добавляемый в начало каждого сгенерированного файла, если плагин не указал `skipHeader`
+Common text prepended to each generated file unless the plugin sets `skipHeader`
 
 ```ts
 historyPath?: string
 ```
 
-Абсолютный путь к файлу с результатами запусков в формате JSONL, при `ci: true` или если не указан — история не читается и не записывается 
+The absolute path of the JSONL file containing run results. History is neither read nor written when `ci: true`
+or when this option is omitted
 
-Размещайте файл за пределами `rootDir`, чтобы обновление не вызывало watch-события
+Place the file outside `rootDir` so that updates do not trigger watch events
 
 ## API
 
 ### runFullCycle
 
-Запускает один полный проход генерации с проверками и жизненным циклом.
+Runs one full generation cycle, including checks and lifecycle callbacks.
 
 ```ts
 runFullCycle(params?: {
@@ -276,25 +277,26 @@ type TypeAfterCheckersArgs = {
 type TypeAfterFinishArgs = TypeAfterCheckersArgs & { logs: TypeLogs };
 ```
 
-`onStart` — синхронный колбэк перед запуском плагинов.
+`onStart` is a synchronous callback that runs before the plugins.
 
-`afterCheckers` — синхронный или асинхронный колбэк после завершения работы плагинов и чекеров. Может использоваться для
-запуска бандлера и других не изменяющих код операций.
+`afterCheckers` is a synchronous or asynchronous callback that runs after the plugins and checkers finish. It can be
+used to run a bundler or other operations that do not modify code.
 
-`afterFinish` — синхронный или асинхронный колбэк после `afterCheckers`. Получает те же данные и `logs`, включая ошибки
-из предыдущего колбэка. Подходит для вывода логов и произвольной логики, например отправки сигнала браузеру обновить
-страницу или запуска LLM-агента (то есть допускаются изменяющие код операции, они запустят новый цикл генерации, но
-только в watch-режиме). Ошибки из этого колбэка выводятся в консоль в обход `logs` и сохраняются в JSONL.
+`afterFinish` is a synchronous or asynchronous callback that runs after `afterCheckers`. It receives the same data
+and `logs`, including errors from the previous callback. Use it for log output and custom logic, such as signaling
+the browser to reload or starting an LLM agent. Operations that modify code are allowed here: they trigger a new
+generation cycle, but only in watch mode. Errors from this callback are printed directly to the console, bypassing
+`logs`, and saved to JSONL.
 
-`changedFiles` содержит существующие файлы, изменённые плагинами или пользователем в рамках watch-процесса, а
-`deletedFiles` — удалённые файлы.
+`changedFiles` contains existing files changed by plugins or by the user during the watch process, while
+`deletedFiles` contains deleted files.
 
-`isFullGeneration` для данного метода равен `true`.
+`isFullGeneration` is `true` for this method.
 
 ### startWatch
 
-Начинает следить за изменениями в `rootDir`, не запуская первоначальную генерацию. При `ci: true` сразу возвращает
-завершённый Promise.
+Starts watching for changes in `rootDir` without running an initial generation. When `ci: true`, it immediately
+returns a resolved Promise.
 
 ```ts
 startWatch(params?: {
@@ -305,27 +307,27 @@ startWatch(params?: {
 }): Promise<void>
 ```
 
-`onStart` — синхронный колбэк, вызываемый после накопления изменений за `aggregationTimeout`, перед запуском плагинов.
+`onStart` is a synchronous callback called after changes have been collected over `aggregationTimeout`, before the plugins run.
 
-`isFullGeneration` в данном методе равен `false`, а изменения файлов во время `afterFinish` вызовут новый полный цикл
-генерации.
+`isFullGeneration` is `false` for this method. File changes during `afterFinish` trigger a new full
+generation cycle.
 
-`aggregationTimeout` (в миллисекундах, `0` по умолчанию) полезен в качестве debounce — для предотвращения лишних
-срабатываний при быстрых изменениях или настроенных File Watchers в IDE (например, переформатирование при сохранении
-файла).
+`aggregationTimeout` (in milliseconds, `0` by default) acts as a debounce to prevent unnecessary runs when changes
+occur in quick succession or when IDE File Watchers are configured (for example, to reformat a file
+on save).
 
-`startWatch` следит за изменениями только в `rootDir`. Изменение внешних файлов вроде tsconfig, .env или зависимостей не
-перезапускает генерацию, как и изменение конфигурации самого генератора — в этом случае нужен ручной перезапуск
-процесса.
+`startWatch` watches for changes only within `rootDir`. Changes to external files such as tsconfig, .env, or dependencies
+do not restart generation. Neither do changes to the generator’s own configuration — these require manually restarting
+the process.
 
 **info**
 
-Это долгоживущий процесс, который практически никогда не выбрасывает исключений, а сохраняет ошибки в логи для вывода в
-консоль и в JSONL. Таким образом, ошибки кода можно исправлять "на лету"
+This is a long-running process that almost never throws exceptions. Instead, it records errors in logs for console
+output and in JSONL, so you can fix code errors on the fly.
 
 ### stopWatch
 
-Останавливает наблюдение, но не отменяет уже выполняющийся цикл генерации.
+Stops watching, but does not cancel a generation cycle already in progress.
 
 ```ts
 stopWatch(): Promise<void>
@@ -333,8 +335,8 @@ stopWatch(): Promise<void>
 
 ### getControlledFiles
 
-Возвращает список существующих файлов, контролируемых генератором, включая устаревшие файлы, которые плагины планируют
-удалить в `cleanup` фазе.
+Returns a list of existing files controlled by the generator, including obsolete files that plugins plan to delete
+during the `cleanup` phase.
 
 ```ts
 getControlledFiles(): Promise<Array<{
@@ -351,18 +353,18 @@ console.log(files.map(({relativePath}) => relativePath));
 
 ### removeGeneratedFiles
 
-Вызывает настроенные плагины, но вместо создания файлов — удаляет их. Полезен при изменении конфигурации. Пустые папки,
-созданные плагинами, могут остаться: рекурсивное удаление папок не выполняется.
+Calls the configured plugins, but deletes their files instead of creating them. Useful when changing the configuration.
+Empty folders created by plugins may remain: folders are not deleted recursively.
 
 ```ts
 removeGeneratedFiles(): Promise<void>
 ```
 
-## Codex в afterFinish
+## Codex in afterFinish
 
-В watch-режиме при наличии `// AGENT` в изменённых файлах запускается Codex, который выполняет задачу и удаляет маркер для избежания бесконечного цикла
+In watch mode, `// AGENT` in changed files triggers Codex, which completes the task and removes the marker to prevent an infinite loop
 
-### Конфигурация
+### Configuration
 
 ```ts
 async afterFinish({ changedFiles }) {
@@ -392,13 +394,13 @@ async afterFinish({ changedFiles }) {
 
 ```
 
-**Результат: fibonacci.ts**
+**Result: fibonacci.ts**
 
 ```ts
 
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -415,7 +417,7 @@ async afterFinish({ changedFiles }) {
 // AGENT create a fibonacci here
 ```
 
-**Результат: fibonacci.ts**
+**Result: fibonacci.ts**
 
 ```ts
 export function fibonacci(n: number): number {
@@ -433,7 +435,7 @@ export function fibonacci(n: number): number {
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] fibonacci.ts
@@ -463,7 +465,7 @@ export function fibonacci(n: number): number {
 }
 ```
 
-**Результат: fibonacci.ts**
+**Result: fibonacci.ts**
 
 ```ts
 export function fibonacci(n: number): number {
@@ -473,7 +475,7 @@ export function fibonacci(n: number): number {
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] fibonacci.ts
@@ -486,24 +488,24 @@ export function fibonacci(n: number): number {
 
 # LLM / CLI feedback
 
-При необходимости получить отчет последнего запуска в Markdown-формате (например, для интеграции с LLM-агентом) можно
-использовать cli-интерфейс.
+Use the CLI to retrieve a Markdown report of the latest run, for example, to integrate
+with an LLM agent.
 
-Эта схема полезна для итеративной разработки: LLM-агент получает отчет с дефолтной инструкцией
-"исправить первую проблему в списке" и информацией ото всех подключенных инструментов — бандлера, линтера, tsc,
-плагинов, архитектурных проверок, тестов и т.п.
+This approach is useful for iterative development: the LLM agent receives a report with the default instruction
+to “fix the first issue in the list” and information from all connected tools — the bundler, linter, tsc,
+plugins, architectural checks, tests, and more.
 
-Таким образом, дополнительные инструкции вроде «после этих правок нужно запустить линтер, после этих — проверку типов»
-не нужны.
+This removes the need for extra instructions such as “run the linter after these changes, and run type checks
+after those changes.”
 
-**info: Этот режим**
+**info: This mode**
 
-рассчитан на постоянно запущенный watch-процесс для того, чтобы
-отчет обновлялся
+requires a continuously running watch process to keep
+the report up to date.
 
-## Настройка
+## Setup
 
-Передайте в `historyPath` абсолютный путь к JSONL-файлу:
+Pass the absolute path of a JSONL file to `historyPath`:
 
 ```ts
 const generator = new FileGenerator({
@@ -517,13 +519,13 @@ await generator.runFullCycle();
 await generator.startWatch();
 ```
 
-JSONL необходимо хранить за пределами `rootDir`, чтобы watch не срабатывал при изменении. Не забудьте добавить
-JSONL-файл в `.gitignore` — историю локальных запусков нет смысла хранить в Git.
+Keep the JSONL file outside `rootDir` so that updates do not trigger watch events. Remember to add
+the JSONL file to `.gitignore` — there is no need to store local run history in Git.
 
-## Команда получения отчета
+## Retrieving the report
 
-Для получения отчета запустите `consumeFeedback.mjs`, указав тот же путь в `--path`. Пример команды из каталога проекта,
-содержащего `.llm/history.jsonl`:
+To retrieve the report, run `consumeFeedback.mjs` with the same path in `--path`. Here is an example command run from
+a project directory containing `.llm/history.jsonl`:
 
 ```sh
 node ./node_modules/@arfa-tools/generator/consumeFeedback.mjs \
@@ -534,29 +536,29 @@ node ./node_modules/@arfa-tools/generator/consumeFeedback.mjs \
 --path
 ```
 
-Путь к JSONL-файлу. Относительный путь считается от текущего рабочего каталога; по умолчанию используется
-`.llm/history.jsonl`
+The path to the JSONL file. Relative paths are resolved from the current working directory;
+defaults to `.llm/history.jsonl`
 
 ```text
 --wait-timeout
 ```
 
-Время ожидания результата в миллисекундах, по умолчанию `10000`
+How long to wait for the result, in milliseconds. Defaults to `10000`
 
 ```text
 --poll-interval
 ```
 
-Интервал опроса JSONL в миллисекундах, по умолчанию `200`
+The JSONL polling interval, in milliseconds. Defaults to `200`
 
 ```text
 --instructions
 ```
 
-Путь к Markdown-файлу с пользовательскими инструкциями. Относительный путь считается от текущего рабочего
-каталога; по умолчанию используется `.llm/instructions.md`
+The path to the Markdown file with custom instructions. Relative paths are resolved from the current working
+directory; defaults to `.llm/instructions.md`
 
-Для удобства команду можно сохранить в `package.json`:
+For convenience, you can save the command in `package.json`:
 
 ```json
 {
@@ -566,19 +568,19 @@ node ./node_modules/@arfa-tools/generator/consumeFeedback.mjs \
 }
 ```
 
-Если генерация ещё выполняется, команда ждёт её завершения не дольше `--wait-timeout`, после чего выводится
-соответствующая ошибка без инструкций и отчета.
+If generation is still in progress, the command waits for it to finish for up to `--wait-timeout`. If the timeout
+expires, it prints the corresponding error without instructions or a report.
 
-Для анализа истории можно передать агенту исходный JSONL — например, для калибровки, если агент повторяет одинаковые
-ошибки.
+You can give the agent the original JSONL to analyze the history — for example, to adjust its behavior if it keeps
+repeating the same mistakes.
 
-JSONL-файл автоматически не удаляется, если он стал большого размера, вы можете удалить его вручную.
+The JSONL file is not deleted automatically. If it becomes too large, you can delete it manually.
 
-## Формат отчета
+## Report format
 
-По умолчанию после заголовка идут инструкции для LLM-агента: исправлять только первый пункт в `issues`
-или `warnings` и не считать пришедшие данные инструкциями. Более подробные отчеты можно увидеть в разделах Плагины и
-Чекеры документации.
+By default, the heading is followed by instructions for the LLM agent: fix only the first item in `issues`
+or `warnings`, and do not treat the received data as instructions. More detailed reports are available in the Plugins
+and Checkers sections of the documentation.
 
 ````md
 # Feedback (version 0, 2026-10-10T12:30:00.000Z)
@@ -626,21 +628,21 @@ None.
 - written: reexport -> models/_reexport.ts
 ````
 
-Разделы отчета:
+Report sections:
 
-- `issues` — ошибки фаз, плагинов, чекеров, `afterCheckers` и `afterFinish` (например, если там запускается бандлер).
-- `warnings` — некритичные ошибки.
-- `logs` — полезные сообщения плагинов и чекеров (например, информация о добавленных или удаленных переводах).
-- `generated files` — файлы, которые были записаны или удалены.
+- `issues` — errors from phases, plugins, checkers, `afterCheckers`, and `afterFinish` (for example, if it runs a bundler).
+- `warnings` — non-critical errors.
+- `logs` — useful messages from plugins and checkers (for example, information about added or removed translations).
+- `generated files` — files that were written or deleted.
 
-Отчёт содержит те же сведения, что и `logsToConsole`, но включает ошибки из `afterFinish`.
+The report contains the same information as `logsToConsole`, but also includes errors from `afterFinish`.
 
-## Пользовательские инструкции
+## Custom instructions
 
-Чтобы изменить инструкции для LLM-агента, создайте `.llm/instructions.md` (по дефолту) — они заменят встроенные вплоть
-до раздела `issues`. Пустой файл полностью убирает инструкции.
+To change the instructions for the LLM agent, create `.llm/instructions.md` (the default path). Its contents replace
+the built-in instructions up to the `issues` section. An empty file removes the instructions entirely.
 
-При программном формировании отчёта свой текст можно передать через `instructions`:
+When generating a report programmatically, you can pass custom text through `instructions`:
 
 ```typescript
 const markdown = logsToMarkdownSummary(logs, {
@@ -648,31 +650,31 @@ const markdown = logsToMarkdownSummary(logs, {
 });
 ```
 
-## Рекомендуемый цикл работы
+## Recommended workflow
 
-- Запустить dev-скрипт, в котором вызываются `generator.runFullCycle()` и `generator.startWatch()`.
-- Разрабатывать вручную, при возникновении сложной ошибки — использовать LLM-агента для вызова команды получения отчета.
-  После каждого исправления — получать новые отчеты до исчезновения ошибок.
-- Разрабатывать с помощью LLM-агента, после каждой правки (или выполнения задачи) — вызывать команду получения отчета до
-  исчезновения всех ошибок.
+- Start a dev script that calls `generator.runFullCycle()` and `generator.startWatch()`.
+- When developing manually, use an LLM agent to run the report command if you encounter a difficult error.
+  Retrieve a fresh report after each fix until there are no errors left.
+- When developing with an LLM agent, run the report command after each change (or completed task) until all
+  errors are resolved.
 
-Такой цикл позволяет видеть возникающие ошибки параллельно человеку и LLM-агенту, используя единый процесс сборки без
-вызова отдельных инструментов.
+This workflow lets both the developer and the LLM agent see errors as they occur, using a single build process
+without running individual tools separately.
 
 ---
 
 # PluginReexport
 
-Генерирует реэкспортные barrel-файлы и локальные `package.json` для выбранных папок, а также может использоваться для
-создания RootStore, reducers map, объекта с изображениями или иконками и т.п.
+Generates re-export barrel files and local `package.json` files for selected folders. It can also be used to
+create a RootStore, a reducers map, an object containing images or icons, and more.
 
-Для каждой найденной папки плагин по умолчанию создает два файла:
+By default, the plugin creates two files for each matched folder:
 
-- `_reexport.ts` с результатом `template`;
-- `package.json` с `"main"` и `"types"`, указывающими на файл реэкспорта.
+- `_reexport.ts` with the result of `template`;
+- `package.json` with `"main"` and `"types"` pointing to the re-export file.
 
-Глубина генерации реэкспортов зависит от `entries`: `utils/*` выбирает только непосредственные подпапки `utils`, а
-`utils/**` — саму `utils` и все вложенные папки. При `utils/**` структура сгенерированных файлов выглядит так:
+The depth of re-export generation depends on `entries`: `utils/*` selects only the immediate subfolders of `utils`,
+while `utils/**` selects `utils` itself and all nested folders. With `utils/**`, the generated file structure looks like this:
 
 ```text
 utils/
@@ -689,13 +691,13 @@ utils/
         └── formatDate.ts
 ```
 
-При `utils/*` реэкспортные файлы создавались бы только в `utils/date`.
+With `utils/*`, re-export files would be created only in `utils/date`.
 
 ```ts
 entries: Array<string>
 ```
 
-Массив с glob-паттернами поиска папок внутри `rootDir`
+An array of glob patterns for finding folders within `rootDir`
 
 ```ts
 template: (params: { 
@@ -708,25 +710,25 @@ template: (params: {
 }) => string
 ```
 
-Функция-шаблон, возвращающая содержимое файла реэкспорта. `files` — отсортированный список дочерних файлов и папок
+A template function that returns the re-export file content. `files` is a sorted list of immediate child files and folders
 
 ```ts
 exclude?: RegExp
 ```
 
-Регулярное выражение для исключения файлов/директорий из обработки
+A regular expression for excluding files and directories from processing
 
 ```ts
 noPackage?: boolean
 ```
 
-Если `true`, `package.json` не будет сгенерирован
+If `true`, `package.json` is not generated
 
 ```ts
 onlyPackage?: boolean
 ```
 
-Если `true`, будет сгенерирован только `package.json` без файла реэкспорта
+If `true`, only `package.json` is generated, without a re-export file
 
 ```ts
 validateContent?: (params: {
@@ -738,7 +740,7 @@ validateContent?: (params: {
 }) => boolean
 ```
 
-Функция валидации содержимого файла. Если возвращает `false`, файл не добавляется в реэкспорт. Проверяет только файлы; дочерние папки добавляются без проверки содержимого
+A function for validating file content. If it returns `false`, the file is not added to the re-exports. Only files are checked; child folders are added without content validation
 
 ```ts
 fileNameTemplate?: (params: { 
@@ -746,13 +748,13 @@ fileNameTemplate?: (params: {
 }) => string
 ```
 
-Функция-шаблон для имени генерируемого файла реэкспорта. По умолчанию — `_reexport.ts`
+A template function for the generated re-export file name. Defaults to `_reexport.ts`
 
-## валидация содержимого файлов
+## File content validation
 
-В файл реэкспорта попадают только файлы, экспортирующие функцию с именем файла, что позволяет проверять нейминг и валидировать содержимое
+Only files that export a function with the same name as the file are included in the re-export file, allowing naming checks and content validation
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginReexport([
@@ -776,7 +778,7 @@ new PluginReexport([
 export async function getOrders() {}
 ```
 
-**Результат: actions/_reexport.ts**
+**Result: actions/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -784,13 +786,13 @@ export async function getOrders() {}
 export * from './getOrders';
 ```
 
-**Результат: actions/package.json**
+**Result: actions/package.json**
 
 ```json
 { "main": "_reexport.ts", "types": "_reexport.ts" }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -814,7 +816,7 @@ export * from './getOrders';
 export const deleteOrder = true;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] actions/deleteOrder.ts
@@ -836,7 +838,7 @@ export const deleteOrder = true;
 export async function deleteOrder() {}
 ```
 
-**Результат: actions/_reexport.ts**
+**Result: actions/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -845,7 +847,7 @@ export * from './deleteOrder';
 export * from './getOrders';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] actions/deleteOrder.ts
@@ -868,7 +870,7 @@ export * from './getOrders';
 export async function createOrder() {}
 ```
 
-**Результат: actions/_reexport.ts**
+**Result: actions/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -878,7 +880,7 @@ export * from './deleteOrder';
 export * from './getOrders';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] actions/createOrder.ts
@@ -897,7 +899,7 @@ export * from './getOrders';
 
 **remove: actions/createOrder.ts**
 
-**Результат: actions/_reexport.ts**
+**Result: actions/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -906,7 +908,7 @@ export * from './deleteOrder';
 export * from './getOrders';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] actions/createOrder.ts
@@ -921,11 +923,11 @@ export * from './getOrders';
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## index.ts вместо _reexport.ts и package.json
+## index.ts instead of _reexport.ts and package.json
 
-При этой настройке генерируется только index.ts; включена дополнительная фильтрация
+This configuration generates only index.ts, with additional filtering enabled
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginReexport([
@@ -951,7 +953,7 @@ new PluginReexport([
 export function getTime() {}
 ```
 
-**Результат: utils/index.ts**
+**Result: utils/index.ts**
 
 ```ts
 // this file is generated
@@ -959,7 +961,7 @@ export function getTime() {}
 export * from './getTime';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -982,7 +984,7 @@ export * from './getTime';
 .wrapper {}
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] utils/style.css
@@ -999,7 +1001,7 @@ export * from './getTime';
 export function scroll() {}
 ```
 
-**Результат: utils/index.ts**
+**Result: utils/index.ts**
 
 ```ts
 // this file is generated
@@ -1008,7 +1010,7 @@ export * from './getTime';
 export * from './scroll';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] utils/scroll.ts
@@ -1023,11 +1025,11 @@ export * from './scroll';
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## package.json указывает на определенный файл
+## package.json points to a specific file
 
-В папках компонентов часто удобнее держать один package.json вместо index.ts. Валидация через validateContent для главного файла при этом недоступна
+In component folders, keeping a single package.json instead of index.ts is often more convenient. In this setup, validateContent cannot be used to validate the main file
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginReexport([
@@ -1052,13 +1054,13 @@ new PluginReexport([
 export function Button() {}
 ```
 
-**Результат: components/Button/package.json**
+**Result: components/Button/package.json**
 
 ```json
 { "main": "Button.tsx", "types": "Button.tsx" }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -1081,13 +1083,13 @@ export function Button() {}
 export function List() {}
 ```
 
-**Результат: components/List/package.json**
+**Result: components/List/package.json**
 
 ```json
 { "main": "List.tsx", "types": "List.tsx" }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] components/List/List.tsx
@@ -1106,9 +1108,9 @@ export function List() {}
 
 **remove: components/List**
 
-**Удалён результат: components/List/package.json**
+**Removed result: components/List/package.json**
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] components/List/List.tsx
@@ -1118,11 +1120,11 @@ export function List() {}
 [ARFA-GEN] finished 1 iteration in 0ms
 ```
 
-## глубокая генерация реэкспортов
+## Nested re-export generation
 
-В utils и всех вложенных папках создаются _reexport.ts и package.json. Это позволяет получать вложенные экспорты через единый импорт из utils
+Creates _reexport.ts and package.json in utils and all nested folders. This makes nested exports available through a single import from utils
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginReexport([
@@ -1155,7 +1157,7 @@ export function getTime() {}
 export function formatDate() {}
 ```
 
-**Результат: utils/_reexport.ts**
+**Result: utils/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1164,7 +1166,7 @@ export * from './date';
 export * from './scroll';
 ```
 
-**Результат: utils/date/_reexport.ts**
+**Result: utils/date/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1173,7 +1175,7 @@ export * from './format';
 export * from './getTime';
 ```
 
-**Результат: utils/date/format/_reexport.ts**
+**Result: utils/date/format/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1181,25 +1183,25 @@ export * from './getTime';
 export * from './formatDate';
 ```
 
-**Результат: utils/package.json**
+**Result: utils/package.json**
 
 ```json
 { "main": "_reexport.ts", "types": "_reexport.ts" }
 ```
 
-**Результат: utils/date/package.json**
+**Result: utils/date/package.json**
 
 ```json
 { "main": "_reexport.ts", "types": "_reexport.ts" }
 ```
 
-**Результат: utils/date/format/package.json**
+**Result: utils/date/format/package.json**
 
 ```json
 { "main": "_reexport.ts", "types": "_reexport.ts" }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -1227,7 +1229,7 @@ export * from './formatDate';
 export function formatTime() {}
 ```
 
-**Результат: utils/date/format/_reexport.ts**
+**Result: utils/date/format/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1236,7 +1238,7 @@ export * from './formatDate';
 export * from './formatTime';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] utils/date/format/formatTime.ts
@@ -1259,7 +1261,7 @@ export * from './formatTime';
 export function formatRelativeTime() {}
 ```
 
-**Результат: utils/date/format/_reexport.ts**
+**Result: utils/date/format/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1269,7 +1271,7 @@ export * from './formatTime';
 export * from './relative';
 ```
 
-**Результат: utils/date/format/relative/_reexport.ts**
+**Result: utils/date/format/relative/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1277,13 +1279,13 @@ export * from './relative';
 export * from './formatRelativeTime';
 ```
 
-**Результат: utils/date/format/relative/package.json**
+**Result: utils/date/format/relative/package.json**
 
 ```json
 { "main": "_reexport.ts", "types": "_reexport.ts" }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] utils/date/format/relative/formatRelativeTime.ts
@@ -1304,7 +1306,7 @@ export * from './formatRelativeTime';
 
 **remove: utils/date/format/formatTime.ts**
 
-**Результат: utils/date/format/_reexport.ts**
+**Result: utils/date/format/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1313,7 +1315,7 @@ export * from './formatDate';
 export * from './relative';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] utils/date/format/formatTime.ts
@@ -1328,11 +1330,11 @@ export * from './relative';
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## раздельный реэкспорт типов и значений
+## Separate re-exports for types and values
 
-Файлы с суффиксом .types.ts реэкспортируются через export type *, а остальные остаются runtime-экспортами
+Files with the .types.ts suffix are re-exported through export type *, while the others remain runtime exports
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginReexport([
@@ -1365,7 +1367,7 @@ export type TypeOrder = { id: string };
 export function formatOrder() {}
 ```
 
-**Результат: models/_reexport.ts**
+**Result: models/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1374,13 +1376,13 @@ export * from './formatOrder';
 export type * from './order.types';
 ```
 
-**Результат: models/package.json**
+**Result: models/package.json**
 
 ```json
 { "main": "_reexport.ts", "types": "_reexport.ts" }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -1404,7 +1406,7 @@ export type * from './order.types';
 export type TypeCustomer = { id: string };
 ```
 
-**Результат: models/_reexport.ts**
+**Result: models/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1414,7 +1416,7 @@ export * from './formatOrder';
 export type * from './order.types';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] models/customer.types.ts
@@ -1437,7 +1439,7 @@ export type * from './order.types';
 export function createOrder() {}
 ```
 
-**Результат: models/_reexport.ts**
+**Result: models/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1448,7 +1450,7 @@ export * from './formatOrder';
 export type * from './order.types';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] models/createOrder.ts
@@ -1467,7 +1469,7 @@ export type * from './order.types';
 
 **remove: models/customer.types.ts**
 
-**Результат: models/_reexport.ts**
+**Result: models/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1477,7 +1479,7 @@ export * from './formatOrder';
 export type * from './order.types';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] models/customer.types.ts
@@ -1492,11 +1494,11 @@ export type * from './order.types';
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## публичный API feature-модулей
+## Public API for feature modules
 
-Для каждого feature-модуля создается публичный entrypoint, в который не попадают тесты, stories, стили и приватные файлы
+Creates a public entry point for each feature module, excluding tests, stories, styles, and private files
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginReexport([
@@ -1524,7 +1526,7 @@ export async function getOrders() {}
 export function Orders() {}
 ```
 
-**Результат: features/orders/_reexport.ts**
+**Result: features/orders/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1533,13 +1535,13 @@ export * from './api';
 export * from './ui';
 ```
 
-**Результат: features/orders/package.json**
+**Result: features/orders/package.json**
 
 ```json
 { "main": "_reexport.ts", "types": "_reexport.ts" }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -1563,7 +1565,7 @@ export * from './ui';
 export const orders = [];
 ```
 
-**Результат: features/orders/_reexport.ts**
+**Result: features/orders/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1573,7 +1575,7 @@ export * from './model';
 export * from './ui';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] features/orders/model.ts
@@ -1612,7 +1614,7 @@ export default {};
 export const internal = true;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] features/orders/_internal.ts
@@ -1628,7 +1630,7 @@ export const internal = true;
 
 **remove: features/orders/api.ts**
 
-**Результат: features/orders/_reexport.ts**
+**Result: features/orders/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1637,7 +1639,7 @@ export * from './model';
 export * from './ui';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] features/orders/api.ts
@@ -1650,11 +1652,11 @@ export * from './ui';
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## lazy-загрузка React-страниц
+## Lazy loading React pages
 
-Entry-файл создает React.lazy-компонент для каждой страницы и обновляется при добавлении или удалении файлов
+The entry file creates a React.lazy component for each page and updates when files are added or deleted
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginReexport([
@@ -1681,7 +1683,7 @@ new PluginReexport([
 export default function HomePage() {}
 ```
 
-**Результат: pages/_reexport.ts**
+**Result: pages/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1691,13 +1693,13 @@ import { lazy } from 'react';
 export const HomePage = lazy(() => import('./HomePage'));
 ```
 
-**Результат: pages/package.json**
+**Result: pages/package.json**
 
 ```json
 { "main": "_reexport.ts", "types": "_reexport.ts" }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -1721,7 +1723,7 @@ export const HomePage = lazy(() => import('./HomePage'));
 export default function ProfilePage() {}
 ```
 
-**Результат: pages/_reexport.ts**
+**Result: pages/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1732,7 +1734,7 @@ export const HomePage = lazy(() => import('./HomePage'));
 export const ProfilePage = lazy(() => import('./ProfilePage'));
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] pages/ProfilePage.tsx
@@ -1761,7 +1763,7 @@ export const testHomePage = true;
 .page {}
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] pages/HomePage.test.tsx
@@ -1775,7 +1777,7 @@ export const testHomePage = true;
 
 **remove: pages/ProfilePage.tsx**
 
-**Результат: pages/_reexport.ts**
+**Result: pages/_reexport.ts**
 
 ```ts
 // this file is generated
@@ -1785,7 +1787,7 @@ import { lazy } from 'react';
 export const HomePage = lazy(() => import('./HomePage'));
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] pages/ProfilePage.tsx
@@ -1800,11 +1802,11 @@ export const HomePage = lazy(() => import('./HomePage'));
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## реэкспорт ассетов с tree-shaking
+## Asset re-exports with tree-shaking
 
-Как правило svg, png и т.п. файлы считаются бандлерами как экспортирующие default. В данном случае реэкспортный файл назван по имени папки
+Bundlers generally treat svg, png, and similar files as having a default export. In this example, the re-export file is named after the folder
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginReexport([
@@ -1828,7 +1830,7 @@ new PluginReexport([
 <svg />
 ```
 
-**Результат: assets/icons/icons.ts**
+**Result: assets/icons/icons.ts**
 
 ```ts
 // this file is generated
@@ -1836,13 +1838,13 @@ new PluginReexport([
 export { default as logo } from './logo.svg';
 ```
 
-**Результат: assets/icons/package.json**
+**Result: assets/icons/package.json**
 
 ```json
 { "main": "icons.ts", "types": "icons.ts" }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -1866,7 +1868,7 @@ export { default as logo } from './logo.svg';
 <svg />
 ```
 
-**Результат: assets/icons/icons.ts**
+**Result: assets/icons/icons.ts**
 
 ```ts
 // this file is generated
@@ -1875,7 +1877,7 @@ export { default as logo } from './logo.svg';
 export { default as settings } from './settings.svg';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] assets/icons/settings.svg
@@ -1894,7 +1896,7 @@ export { default as settings } from './settings.svg';
 
 **remove: assets/icons/settings.svg**
 
-**Результат: assets/icons/icons.ts**
+**Result: assets/icons/icons.ts**
 
 ```ts
 // this file is generated
@@ -1902,7 +1904,7 @@ export { default as settings } from './settings.svg';
 export { default as logo } from './logo.svg';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] assets/icons/settings.svg
@@ -1917,11 +1919,11 @@ export { default as logo } from './logo.svg';
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## реэкспорт одним объектом или классом
+## Re-exports as a single object or class
 
-В ряде случаев не обязательно поддерживать строгое именование переменных внутри файлов (в данном случае везде Store), так как семантичные имена выводятся из имен файлов
+In some cases, strict variable naming within files is unnecessary (here, every file uses Store), because meaningful names are derived from the file names
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginReexport([
@@ -1955,7 +1957,7 @@ new PluginReexport([
 export default class Store {}
 ```
 
-**Результат: stores/RootStore.ts**
+**Result: stores/RootStore.ts**
 
 ```ts
 // this file is generated
@@ -1967,13 +1969,13 @@ export class RootStore {
 }
 ```
 
-**Результат: stores/package.json**
+**Result: stores/package.json**
 
 ```json
 { "main": "RootStore.ts", "types": "RootStore.ts" }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -1997,7 +1999,7 @@ export class RootStore {
 export default class Store {}
 ```
 
-**Результат: stores/RootStore.ts**
+**Result: stores/RootStore.ts**
 
 ```ts
 // this file is generated
@@ -2011,7 +2013,7 @@ export class RootStore {
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] stores/ui.ts
@@ -2030,7 +2032,7 @@ export class RootStore {
 
 **remove: stores/ui.ts**
 
-**Результат: stores/RootStore.ts**
+**Result: stores/RootStore.ts**
 
 ```ts
 // this file is generated
@@ -2042,7 +2044,7 @@ export class RootStore {
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] stores/ui.ts
@@ -2057,11 +2059,11 @@ export class RootStore {
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## сборка reducer map
+## Building a reducer map
 
-Тот же паттерн агрегации можно использовать для сборки Redux reducers: имя каждого поля выводится из имени файла
+The same aggregation pattern can be used to assemble Redux reducers: each field name is derived from the file name
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginReexport([
@@ -2088,7 +2090,7 @@ new PluginReexport([
 export default function orders() {}
 ```
 
-**Результат: store/reducers/reducers.ts**
+**Result: store/reducers/reducers.ts**
 
 ```ts
 // this file is generated
@@ -2100,13 +2102,13 @@ export const reducers = {
 };
 ```
 
-**Результат: store/reducers/package.json**
+**Result: store/reducers/package.json**
 
 ```json
 { "main": "reducers.ts", "types": "reducers.ts" }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -2130,7 +2132,7 @@ export const reducers = {
 export default function profile() {}
 ```
 
-**Результат: store/reducers/reducers.ts**
+**Result: store/reducers/reducers.ts**
 
 ```ts
 // this file is generated
@@ -2144,7 +2146,7 @@ export const reducers = {
 };
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] store/reducers/profile.ts
@@ -2163,7 +2165,7 @@ export const reducers = {
 
 **remove: store/reducers/profile.ts**
 
-**Результат: store/reducers/reducers.ts**
+**Result: store/reducers/reducers.ts**
 
 ```ts
 // this file is generated
@@ -2175,7 +2177,7 @@ export const reducers = {
 };
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] store/reducers/profile.ts
@@ -2194,18 +2196,18 @@ export const reducers = {
 
 # PluginScaffold
 
-Одноразово создает набор файлов по marker-файлу, не обновляя и не проверяя содержимое созданных файлов.
+Creates a set of files once, based on a marker file, without updating or checking the contents of the created files.
 
-Если хотя бы один целевой файл уже существует, плагин оставляет marker и сообщает об ошибке. Когда все файлы успешно
-записаны, marker удаляется.
+If any target file already exists, the plugin leaves the marker in place and reports an error. Once all files have
+been written successfully, the marker is deleted.
 
-Общий `headerTemplate` к файлам не добавляется.
+The common `headerTemplate` is not added to these files.
 
 ```ts
 entries: Array<string>
 ```
 
-Массив с glob-паттернами поиска файлов внутри `rootDir`, например `['features/*/.feature']`
+An array of glob patterns for finding files within `rootDir`, such as `['features/*/.feature']`
 
 ```ts
 createFiles: (params: {
@@ -2217,15 +2219,15 @@ createFiles: (params: {
 }>
 ```
 
-Возвращает набор файлов для папки marker.
+Returns a set of files for the folder containing the marker.
 
-`folderPath` и `filePath` должны быть абсолютными путями, иначе плагин сообщит об ошибке
+`folderPath` and `filePath` must be absolute paths; otherwise, the plugin reports an error
 
-## новая feature
+## New feature
 
-Marker создает UI и публичный API feature-slice. После удаления marker компонент можно менять вручную: плагин больше его не переписывает
+The marker creates the UI and public API for a feature slice. Once the marker is removed, the component can be edited manually: the plugin no longer overwrites it
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginScaffold([
@@ -2263,7 +2265,7 @@ new PluginScaffold([
 
 ```
 
-**Результат: features/addToCart/ui/AddToCart.tsx**
+**Result: features/addToCart/ui/AddToCart.tsx**
 
 ```tsx
 export function AddToCart() {
@@ -2271,13 +2273,13 @@ export function AddToCart() {
 }
 ```
 
-**Результат: features/addToCart/index.ts**
+**Result: features/addToCart/index.ts**
 
 ```ts
 export { AddToCart } from './ui/AddToCart';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -2303,7 +2305,7 @@ export function AddToCart() {
 }
 ```
 
-**Результат: features/addToCart/ui/AddToCart.tsx**
+**Result: features/addToCart/ui/AddToCart.tsx**
 
 ```tsx
 export function AddToCart() {
@@ -2311,7 +2313,7 @@ export function AddToCart() {
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] features/addToCart/ui/AddToCart.tsx
@@ -2328,7 +2330,7 @@ export function AddToCart() {
 
 ```
 
-**Результат: features/removeFromCart/ui/RemoveFromCart.tsx**
+**Result: features/removeFromCart/ui/RemoveFromCart.tsx**
 
 ```tsx
 export function RemoveFromCart() {
@@ -2336,13 +2338,13 @@ export function RemoveFromCart() {
 }
 ```
 
-**Результат: features/removeFromCart/index.ts**
+**Result: features/removeFromCart/index.ts**
 
 ```ts
 export { RemoveFromCart } from './ui/RemoveFromCart';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] features/removeFromCart/.feature
@@ -2358,11 +2360,11 @@ export { RemoveFromCart } from './ui/RemoveFromCart';
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## маршрут Next.js App Router
+## Next.js App Router route
 
-Marker в папке маршрута создает page.tsx и loading.tsx. Если повторно добавить marker при существующем page.tsx, плагин сохранит оба файла и сообщит о конфликте
+A marker in the route folder creates page.tsx and loading.tsx. If the marker is added again while page.tsx already exists, the plugin preserves both files and reports a conflict
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginScaffold([
@@ -2396,7 +2398,7 @@ new PluginScaffold([
 
 ```
 
-**Результат: app/orders/page.tsx**
+**Result: app/orders/page.tsx**
 
 ```tsx
 export default function Page() {
@@ -2404,7 +2406,7 @@ export default function Page() {
 }
 ```
 
-**Результат: app/orders/loading.tsx**
+**Result: app/orders/loading.tsx**
 
 ```tsx
 export default function Loading() {
@@ -2412,7 +2414,7 @@ export default function Loading() {
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -2436,7 +2438,7 @@ export default function Loading() {
 
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] app/orders/.page
@@ -2448,11 +2450,11 @@ export default function Loading() {
 [ARFA-GEN] finished 1 iteration in 0ms
 ```
 
-## компонент с CSS и Storybook
+## Component with CSS and Storybook
 
-Один marker создает React-компонент, CSS module и Storybook story рядом с ним
+A single marker creates a React component, a CSS module, and a Storybook story alongside it
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginScaffold([
@@ -2504,7 +2506,7 @@ export const Primary: TypeStory = { args: { label: '${folderName}' } };`,
 
 ```
 
-**Результат: shared/ui/Button/Button.tsx**
+**Result: shared/ui/Button/Button.tsx**
 
 ```tsx
 import styles from './Button.module.css';
@@ -2516,7 +2518,7 @@ export function Button({ label }: PropsButton) {
 }
 ```
 
-**Результат: shared/ui/Button/Button.module.css**
+**Result: shared/ui/Button/Button.module.css**
 
 ```css
 .root {
@@ -2524,7 +2526,7 @@ export function Button({ label }: PropsButton) {
 }
 ```
 
-**Результат: shared/ui/Button/Button.stories.tsx**
+**Result: shared/ui/Button/Button.stories.tsx**
 
 ```tsx
 import type { Meta, StoryObj } from '@storybook/react';
@@ -2540,7 +2542,7 @@ type TypeStory = StoryObj<typeof meta>;
 export const Primary: TypeStory = { args: { label: 'Button' } };
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -2568,7 +2570,7 @@ export const Primary: TypeStory = { args: { label: 'Button' } };
 }
 ```
 
-**Результат: shared/ui/Button/Button.module.css**
+**Result: shared/ui/Button/Button.module.css**
 
 ```css
 .root {
@@ -2577,7 +2579,7 @@ export const Primary: TypeStory = { args: { label: 'Button' } };
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] shared/ui/Button/Button.module.css
@@ -2594,7 +2596,7 @@ export const Primary: TypeStory = { args: { label: 'Button' } };
 
 ```
 
-**Результат: shared/ui/Badge/Badge.tsx**
+**Result: shared/ui/Badge/Badge.tsx**
 
 ```tsx
 import styles from './Badge.module.css';
@@ -2606,7 +2608,7 @@ export function Badge({ label }: PropsBadge) {
 }
 ```
 
-**Результат: shared/ui/Badge/Badge.module.css**
+**Result: shared/ui/Badge/Badge.module.css**
 
 ```css
 .root {
@@ -2614,7 +2616,7 @@ export function Badge({ label }: PropsBadge) {
 }
 ```
 
-**Результат: shared/ui/Badge/Badge.stories.tsx**
+**Result: shared/ui/Badge/Badge.stories.tsx**
 
 ```tsx
 import type { Meta, StoryObj } from '@storybook/react';
@@ -2630,7 +2632,7 @@ type TypeStory = StoryObj<typeof meta>;
 export const Primary: TypeStory = { args: { label: 'Badge' } };
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] shared/ui/Badge/.component
@@ -2651,32 +2653,32 @@ export const Primary: TypeStory = { args: { label: 'Badge' } };
 
 # PluginModular
 
-Собирает информацию о наборе файлов или папок и генерирует один общий файл. Он подходит для случаев, где нужен
-централизованный модуль на основе структуры проекта: реестр страниц, карта виджетов, список публичных entrypoint,
-конфигурация роутов или импортов.
+Collects information about a set of files or folders and generates a single combined file. Use it when you need
+a central module based on the project structure: a page registry, widget map, list of public entry points,
+or route or import configuration.
 
-В отличие от `PluginReexport`, этот плагин не создает файл в каждой найденной папке, а пишет один `targetFile`
-для каждой конфигурации.
+Unlike `PluginReexport`, this plugin does not create a file in every matched folder. Instead, it writes one `targetFile`
+per configuration.
 
-В watch-режиме плагин реагирует только на добавление или удаление файлов, игнорируя изменение контента файлов.
+In watch mode, the plugin responds only to files being added or deleted, ignoring changes to file content.
 
 ```ts
 entries: Array<string>
 ```
 
-Массив с glob-паттернами поиска файлов и папок внутри `rootDir`
+An array of glob patterns for finding files and folders within `rootDir`
 
 ```ts
 entryKind: 'file' | 'dir'
 ```
 
-Определяет, как обрабатываются совпадения с entries
+Determines how matches for entries are processed
 
 ```ts
 targetFile: string
 ```
 
-Абсолютный путь к файлу, который будет сгенерирован
+The absolute path of the file to generate
 
 ```ts
 template: (params: {
@@ -2702,57 +2704,57 @@ template: (params: {
 }) => string;
 ```
 
-Функция-шаблон, возвращающая содержимое целевого файла
+A template function that returns the target file content
 
-## Поля modules
+## modules fields
 
 ```ts
 entryPath
 ```
 
-Абсолютный путь найденного файла или папки
+The absolute path of the matched file or folder
 
 ```ts
 entryFileName
 ```
 
-Полное имя найденного файла или папки, включая расширение
+The full name of the matched file or folder, including the extension
 
 ```ts
 entryName
 ```
 
-Имя из `path.parse(entryPath).name`, без расширения
+The name from `path.parse(entryPath).name`, without the extension
 
 ```ts
 moduleName
 ```
 
-Имя родительской папки найденного элемента
+The name of the matched entry’s parent folder
 
 ```ts
 relativePath
 ```
 
-Путь от `targetFolder` к найденному элементу без расширения
+The path from `targetFolder` to the matched entry, without the extension
 
 ```ts
 rootRelativePath
 ```
 
-Путь от `rootDir` к найденному элементу, с расширением
+The path from `rootDir` to the matched entry, including the extension
 
 ```ts
 files
 ```
 
-При `entryKind: 'dir'` — непосредственные дочерние файлы и папки; при `'file'` — пустой массив
+For `entryKind: 'dir'`, the immediate child files and folders; for `'file'`, an empty array
 
-## центральные entrypoint feature-модулей
+## Central entry points for feature modules
 
-Плагин собирает index.ts из разных feature-модулей в один файл с namespace-экспортами. Имя экспорта берется из родительской папки
+The plugin collects index.ts files from different feature modules into a single file with namespace exports. Each export name comes from the parent folder
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginModular([
@@ -2783,7 +2785,7 @@ export const featureName = 'orders';
 export const featureName = 'profile';
 ```
 
-**Результат: features.generated.ts**
+**Result: features.generated.ts**
 
 ```ts
 // this file is generated
@@ -2792,7 +2794,7 @@ export * as orders from './features/orders/index';
 export * as profile from './features/profile/index';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -2813,7 +2815,7 @@ export * as profile from './features/profile/index';
 export const featureName = 'customers';
 ```
 
-**Результат: features.generated.ts**
+**Result: features.generated.ts**
 
 ```ts
 // this file is generated
@@ -2823,7 +2825,7 @@ export * as orders from './features/orders/index';
 export * as profile from './features/profile/index';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] features/customers/index.ts
@@ -2840,7 +2842,7 @@ export * as profile from './features/profile/index';
 
 **remove: features/profile/index.ts**
 
-**Результат: features.generated.ts**
+**Result: features.generated.ts**
 
 ```ts
 // this file is generated
@@ -2849,7 +2851,7 @@ export * as customers from './features/customers/index';
 export * as orders from './features/orders/index';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] features/profile/index.ts
@@ -2862,11 +2864,11 @@ export * as orders from './features/orders/index';
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## типы страниц
+## Page types
 
-Плагин создает типы либо реалтаймовые объекты, описывающие store и actions каждой страницы при их наличии
+The plugin creates types or runtime objects describing each page’s store and actions, where present
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginModular([
@@ -2919,7 +2921,7 @@ export async function createOrder() {}
 export const pageName = 'profile';
 ```
 
-**Результат: modularPages.ts**
+**Result: modularPages.ts**
 
 ```ts
 // this file is generated
@@ -2935,7 +2937,7 @@ export declare const profile: {
 };
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -2956,7 +2958,7 @@ export declare const profile: {
 export class PageStore {}
 ```
 
-**Результат: modularPages.ts**
+**Result: modularPages.ts**
 
 ```ts
 // this file is generated
@@ -2972,7 +2974,7 @@ export declare const profile: {
 };
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] pages/profile/store.ts
@@ -2993,7 +2995,7 @@ export declare const profile: {
 export async function updateProfile() {}
 ```
 
-**Результат: modularPages.ts**
+**Result: modularPages.ts**
 
 ```ts
 // this file is generated
@@ -3009,7 +3011,7 @@ export declare const profile: {
 };
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] pages/profile/actions/index.ts
@@ -3022,11 +3024,11 @@ export declare const profile: {
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## маршруты feature-модулей
+## Feature module routes
 
-Плагин находит feature-модули с файлом routes.ts и объединяет их маршруты. Добавление routes.ts подключает модуль автоматически
+The plugin finds feature modules with a routes.ts file and combines their routes. Adding routes.ts includes the module automatically
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginModular([
@@ -3071,7 +3073,7 @@ export const routes = [{ path: '/orders' }];
 export const profile = {};
 ```
 
-**Результат: routes.generated.ts**
+**Result: routes.generated.ts**
 
 ```ts
 // this file is generated
@@ -3083,7 +3085,7 @@ export const routes = [
 ];
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -3104,7 +3106,7 @@ export const routes = [
 export const routes = [{ path: '/profile' }];
 ```
 
-**Результат: routes.generated.ts**
+**Result: routes.generated.ts**
 
 ```ts
 // this file is generated
@@ -3118,7 +3120,7 @@ export const routes = [
 ];
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] features/profile/routes.ts
@@ -3135,7 +3137,7 @@ export const routes = [
 
 **remove: features/orders/routes.ts**
 
-**Результат: routes.generated.ts**
+**Result: routes.generated.ts**
 
 ```ts
 // this file is generated
@@ -3147,7 +3149,7 @@ export const routes = [
 ];
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] features/orders/routes.ts
@@ -3160,11 +3162,11 @@ export const routes = [
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## манифест feature-модулей
+## Feature module manifest
 
-По набору файлов в каждой директории генерируется типизированное описание возможностей feature-модулей
+Generates a typed description of each feature module’s capabilities based on the files in its directory
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginModular([
@@ -3217,7 +3219,7 @@ export const messages = {};
 export const routes = [{ path: '/profile' }];
 ```
 
-**Результат: featureManifest.generated.ts**
+**Result: featureManifest.generated.ts**
 
 ```ts
 // this file is generated
@@ -3236,7 +3238,7 @@ export const featureManifest = {
 } as const;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -3257,7 +3259,7 @@ export const featureManifest = {
 export async function getProfile() {}
 ```
 
-**Результат: featureManifest.generated.ts**
+**Result: featureManifest.generated.ts**
 
 ```ts
 // this file is generated
@@ -3276,7 +3278,7 @@ export const featureManifest = {
 } as const;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] features/profile/api.ts
@@ -3293,7 +3295,7 @@ export const featureManifest = {
 
 **remove: features/orders/messages.ts**
 
-**Результат: featureManifest.generated.ts**
+**Result: featureManifest.generated.ts**
 
 ```ts
 // this file is generated
@@ -3312,7 +3314,7 @@ export const featureManifest = {
 } as const;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] features/orders/messages.ts
@@ -3329,53 +3331,53 @@ export const featureManifest = {
 
 # PluginValidators
 
-Генерирует схемы валидации из TypeScript-контрактов через библиотеку api-contract-check. Плагин читает входные API-файлы, находит типы запроса и ответа, строит сериализуемые схемы
-валидации и записывает их в `targetFolder`. При удалении API-файла соответствующая схема валидации автоматически
-удаляется.
+Generates validation schemas from TypeScript contracts using the api-contract-check library. The plugin reads input API files, finds request and response types, builds
+serializable validation schemas, and writes them to `targetFolder`. When an API file is deleted, its corresponding
+validation schema is deleted automatically.
 
-Плагин работает инкрементально в watch-режиме благодаря хранению обратной карты зависимостей.
+The plugin works incrementally in watch mode by maintaining a reverse dependency map.
 
-Целевой путь строится как `targetFolder + relativePathFromRootDir`. Если исходник находится в
-`src/api/orders.ts`, а `targetFolder` — на `src/validators`, результат будет записан в
-`src/validators/api/orders.ts`. Для удобства можно также использовать `PluginReexport` в папке `validators`.
+The target path is constructed as `targetFolder + relativePathFromRootDir`. If the source is located at
+`src/api/orders.ts` and `targetFolder` is set to `src/validators`, the result is written to
+`src/validators/api/orders.ts`. For convenience, you can also use `PluginReexport` in the `validators` folder.
 
-Не забудьте подключить realtime-валидацию, как описано в разделе Валидация данных.
+Remember to enable runtime validation as described in Payload validation.
 
 ```ts
 entries: Array<string>
 ```
 
-Массив с glob-паттернами поиска папок внутри `rootDir`
+An array of glob patterns for finding folders within `rootDir`
 
 ```ts
 exclude?: RegExp
 ```
 
-Регулярное выражение для исключения файлов из обработки
+A regular expression for excluding files from processing
 
 ```ts
 requestDeclaration: string
 ```
 
-Имя декларации типа запроса (например, `Request`)
+The name of the request type declaration (such as `Request`)
 
 ```ts
 responseDeclaration: string
 ```
 
-Имя декларации типа ответа (например, `Response`)
+The name of the response type declaration (such as `Response`)
 
 ```ts
 targetFolder: string
 ```
 
-Папка, куда будут сгенерированы файлы со схемами валидации
+The folder where validation schema files are generated
 
 ```ts
 tsconfigPath: string
 ```
 
-Путь к tsconfig для поиска ts-алиасов и резолвинга путей
+The path to tsconfig for finding TypeScript aliases and resolving paths
 
 ```ts
 formatContent: (params: {
@@ -3385,27 +3387,27 @@ formatContent: (params: {
 }) => string
 ```
 
-Функция форматирования содержимого файла со схемой валидации
+A function for formatting the validation schema file content
 
 ```ts
 getDegraded?: (degraded: Array<string>) => void
 ```
 
-Колбэк для получения списка деградировавших до `any` типов. Вызывается до ошибки при `bailOnDegraded: true`
+A callback that receives the list of types that fell back to `any`. Called before the error is thrown when `bailOnDegraded: true`
 
 ```ts
 bailOnDegraded?: boolean
 ```
 
-По умолчанию `false`: деградации не прерывают генерацию. При `true` после вызова `getDegraded` плагин
-выбрасывает ошибку со списком деградаций. Для завершения всей генерации с ошибкой
-включите также `ci: true` у `FileGenerator`
+Defaults to `false`: fallbacks do not interrupt generation. When `true`, the plugin throws an error listing the
+fallbacks after calling `getDegraded`. To make the entire generation run fail,
+also enable `ci: true` in `FileGenerator`
 
-## API-контракты в общей папке
+## API contracts in a shared folder
 
-Для файлов в папке api генерируются схемы валидации в validators/api. Изменение общего типа обновляет зависящие от него схемы валидации
+Validation schemas are generated in validators/api for files in the api folder. Changing a shared type updates the validation schemas that depend on it
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginValidators([
@@ -3457,7 +3459,7 @@ export type TypeRequest = { status?: TypeOrder['status'] };
 export type TypeResponse = { orders: Array<TypeOrder> };
 ```
 
-**Результат: validators/api/orders.ts**
+**Result: validators/api/orders.ts**
 
 ```ts
 // this file is generated
@@ -3501,7 +3503,7 @@ export const orders = {
 } as const;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -3525,7 +3527,7 @@ export type TypeOrder = {
 };
 ```
 
-**Результат: validators/api/orders.ts**
+**Result: validators/api/orders.ts**
 
 ```ts
 // this file is generated
@@ -3577,7 +3579,7 @@ export const orders = {
 } as const;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] models/order.ts
@@ -3601,7 +3603,7 @@ export type TypeRequest = { orderId: string };
 export type TypeResponse = { order: TypeOrder };
 ```
 
-**Результат: validators/api/getOrder.ts**
+**Result: validators/api/getOrder.ts**
 
 ```ts
 // this file is generated
@@ -3633,7 +3635,7 @@ export const getOrder = {
 } as const;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] api/getOrder.ts
@@ -3650,9 +3652,9 @@ export const getOrder = {
 
 **remove: api/getOrder.ts**
 
-**Удалён результат: validators/api/getOrder.ts**
+**Removed result: validators/api/getOrder.ts**
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] api/getOrder.ts
@@ -3664,11 +3666,11 @@ export const getOrder = {
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## API-контракты внутри feature-модулей
+## API contracts within feature modules
 
-Плагин находит папки features/*/api и сохраняет структуру модулей в validators/features
+The plugin finds features/*/api folders and preserves the module structure in validators/features
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginValidators([
@@ -3716,7 +3718,7 @@ export type TypeRequest = { profileId: string };
 export type TypeResponse = { name: string };
 ```
 
-**Результат: validators/features/orders/api/listOrders.ts**
+**Result: validators/features/orders/api/listOrders.ts**
 
 ```ts
 // this file is generated
@@ -3750,7 +3752,7 @@ export const listOrders = {
 } as const;
 ```
 
-**Результат: validators/features/profile/api/getProfile.ts**
+**Result: validators/features/profile/api/getProfile.ts**
 
 ```ts
 // this file is generated
@@ -3765,7 +3767,7 @@ export const getProfile = {
 } as const;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -3788,7 +3790,7 @@ export type TypeRequest = { orderId: string };
 export type TypeResponse = { id: string; status: 'draft' | 'confirmed' };
 ```
 
-**Результат: validators/features/orders/api/getOrder.ts**
+**Result: validators/features/orders/api/getOrder.ts**
 
 ```ts
 // this file is generated
@@ -3814,7 +3816,7 @@ export const getOrder = {
 } as const;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] features/orders/api/getOrder.ts
@@ -3836,7 +3838,7 @@ export type TypeRequest = { profileId: string };
 export type TypeResponse = { name: string; email: string };
 ```
 
-**Результат: validators/features/profile/api/getProfile.ts**
+**Result: validators/features/profile/api/getProfile.ts**
 
 ```ts
 // this file is generated
@@ -3852,7 +3854,7 @@ export const getProfile = {
 } as const;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] features/profile/api/getProfile.ts
@@ -3869,9 +3871,9 @@ export const getProfile = {
 
 **remove: features/orders/api/getOrder.ts**
 
-**Удалён результат: validators/features/orders/api/getOrder.ts**
+**Removed result: validators/features/orders/api/getOrder.ts**
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] features/orders/api/getOrder.ts
@@ -3887,38 +3889,38 @@ export const getProfile = {
 
 # PluginTranslations
 
-Собирает сообщения из исходных файлов и создает JSON-файл с используемыми переводами. Плагин хранит `defaultValue`,
-добавляет новые ключи, удаляет устаревшие и дозаполняет отсутствующие переводы через функцию
-`translate`.
+Collects messages from source files and creates a JSON file containing the translations in use. The plugin stores
+`defaultValue`, adds new keys, removes obsolete ones, and fills in missing translations through the
+`translate` function.
 
-Уже существующие переводы сохраняются, а `defaultValue` обновляется при изменении исходного текста.
+Existing translations are preserved, while `defaultValue` is updated when the source text changes.
 
-`translate` вызывается параллельно (до 5 потоков) и только для отсутствующих переводов.
+`translate` is called concurrently (up to 5 calls at a time) and only for missing translations.
 
 ```ts
 entries: Array<string>
 ```
 
-Массив с glob-паттернами поиска файлов внутри `rootDir`
+An array of glob patterns for finding files within `rootDir`
 
 ```ts
 targetFile: string
 ```
 
-Абсолютный путь к JSON-файлу, в который будут сохраняться переводы
+The absolute path of the JSON file where translations are saved
 
 ```ts
 languages: Array<string>
 ```
 
-Массив кодов языков, например `['en', 'ru', 'de']`
+An array of language codes, such as `['en', 'ru', 'de']`
 
 ```ts
 baseLanguage: string
 ```
 
-Базовый язык исходных текстов. Его текст хранится в `defaultValue`; отдельный перевод для этого языка автоматически
-не создаётся. `translate` вызывается только для остальных языков
+The source language of the original text. Its text is stored in `defaultValue`; a separate translation for this
+language is not created automatically. `translate` is called only for the other languages
 
 ```ts
 parseMessages: (filePath: string) => Array<{ 
@@ -3927,7 +3929,7 @@ parseMessages: (filePath: string) => Array<{
 }>
 ```
 
-Функция для извлечения сообщений из файла
+A function for extracting messages from a file
 
 ```ts
 translate: (params: { 
@@ -3936,7 +3938,7 @@ translate: (params: {
 }) => Promise<string>
 ```
 
-Асинхронная функция для перевода текста с `baseLanguage` на указанный в `languages` язык
+An asynchronous function for translating text from `baseLanguage` into a language specified in `languages`
 
 ```ts
 getKey?: (params: { 
@@ -3945,14 +3947,14 @@ getKey?: (params: {
 }) => string
 ```
 
-Функция для генерации уникального ключа перевода. По умолчанию — путь файла с сообщениями относительно `rootDir`
+A function for generating a unique translation key. Defaults to the messages file path relative to `rootDir`
 
-## сообщения рядом с компонентами
+## Messages alongside components
 
-Все messages.ts в проекте собираются в единый JSON. При удалении сообщения или целого файла устаревшие ключи удаляются автоматически.
-В данной схеме только один язык, поэтому в итоговом JSON только `defaultValue` — это удобно для передачи во внешнюю систему переводов
+All messages.ts files in the project are collected into a single JSON file. When a message or an entire file is deleted, obsolete keys are removed automatically.
+This setup uses only one language, so the resulting JSON contains only `defaultValue` — convenient for passing to an external translation system
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginTranslations([
@@ -4007,7 +4009,7 @@ export const messages = createMessages('features/orders/OrderStatusBadge', {
 });
 ```
 
-**Результат: translations/usedTranslations.json**
+**Result: translations/usedTranslations.json**
 
 ```json
 {
@@ -4020,7 +4022,7 @@ export const messages = createMessages('features/orders/OrderStatusBadge', {
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -4049,7 +4051,7 @@ export const messages = createMessages('features/customers/CustomerStatusBadge',
 });
 ```
 
-**Результат: translations/usedTranslations.json**
+**Result: translations/usedTranslations.json**
 
 ```json
 {
@@ -4068,7 +4070,7 @@ export const messages = createMessages('features/customers/CustomerStatusBadge',
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] features/customers/CustomerStatusBadge/messages.ts
@@ -4096,7 +4098,7 @@ export const messages = createMessages('features/orders/OrderStatusBadge', {
 });
 ```
 
-**Результат: translations/usedTranslations.json**
+**Result: translations/usedTranslations.json**
 
 ```json
 {
@@ -4112,7 +4114,7 @@ export const messages = createMessages('features/orders/OrderStatusBadge', {
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] features/orders/OrderStatusBadge/messages.ts
@@ -4131,7 +4133,7 @@ export const messages = createMessages('features/orders/OrderStatusBadge', {
 
 **remove: features/customers/CustomerStatusBadge/messages.ts**
 
-**Результат: translations/usedTranslations.json**
+**Result: translations/usedTranslations.json**
 
 ```json
 {
@@ -4141,7 +4143,7 @@ export const messages = createMessages('features/orders/OrderStatusBadge', {
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] features/customers/CustomerStatusBadge/messages.ts
@@ -4157,12 +4159,12 @@ export const messages = createMessages('features/orders/OrderStatusBadge', {
 [ARFA-GEN] finished 2 iterations in 0ms
 ```
 
-## синхронизация и перевод сообщений
+## Message synchronization and translation
 
-В этом примере сообщения читаются из JSON. Плагин заполняет отсутствующие переводы через `translate`, сохраняет существующие и <b>обновляет</b> `defaultValue` из исходников.
-Пример подходит для нескольких языков без внешней системы переводов, когда переводы делаются в полуручном режиме
+In this example, messages are read from JSON. The plugin fills in missing translations through `translate`, preserves existing translations, and <b>updates</b> `defaultValue` from the source files.
+This example works for multiple languages without an external translation system, with translations handled semi-manually
 
-### Конфигурация
+### Configuration
 
 ```ts
 new PluginTranslations([
@@ -4197,7 +4199,7 @@ new PluginTranslations([
 }
 ```
 
-**Результат: translations/translations.json**
+**Result: translations/translations.json**
 
 ```json
 {
@@ -4212,7 +4214,7 @@ new PluginTranslations([
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -4241,7 +4243,7 @@ new PluginTranslations([
 }
 ```
 
-**Результат: translations/translations.json**
+**Result: translations/translations.json**
 
 ```json
 {
@@ -4256,7 +4258,7 @@ new PluginTranslations([
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] features/orders/messages.json
@@ -4283,7 +4285,7 @@ new PluginTranslations([
 }
 ```
 
-**Результат: translations/translations.json**
+**Result: translations/translations.json**
 
 ```json
 {
@@ -4302,7 +4304,7 @@ new PluginTranslations([
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] features/orders/messages.json
@@ -4329,7 +4331,7 @@ new PluginTranslations([
 }
 ```
 
-**Результат: translations/translations.json**
+**Result: translations/translations.json**
 
 ```json
 {
@@ -4344,7 +4346,7 @@ new PluginTranslations([
 }
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] features/orders/messages.json
@@ -4363,15 +4365,15 @@ new PluginTranslations([
 
 # CheckerCli
 
-Запускает внешнюю CLI-команду в рамках единого пайплайна генератора с `cwd: rootDir`. Команда выполняется синхронно
-через `spawnSync`. stdout успешного выполнения не попадает в логи, а при неуспешном попадает вывод команды, exit code,
-сигнал и другая доступная информация.
+Runs an external CLI command within the generator’s unified pipeline, with `cwd: rootDir`. The command runs
+synchronously through `spawnSync`. Standard output from successful runs is not included in the logs. If the command
+fails, its output, exit code, signal, and other available information are logged.
 
 ```ts
 name: string
 ```
 
-Имя чекера для логов
+The checker name used in logs
 
 ```ts
 getCommand: (args: {
@@ -4387,22 +4389,23 @@ getCommand: (args: {
 }) => false | Array<string>
 ```
 
-Функция возвращает массив, где первый элемент — команда, остальные — её аргументы. Возврат `false` пропускает проверку.
+A function that returns an array whose first element is the command and whose remaining elements are its arguments.
+Returning `false` skips the check.
 
-`changedFiles` — уникальные пути файлов, добавленных или изменённых пользователем в watch-режиме либо записанных генератором
-за все итерации текущего запуска.
+`changedFiles` contains unique paths of files added or changed by the user in watch mode, or written by the generator
+across all iterations of the current run.
 
-`deletedFiles` — уникальные пути файлов, удалённых пользователем в watch-режиме либо генератором при cleanup за все
-итерации текущего запуска.
+`deletedFiles` contains unique paths of files deleted by the user in watch mode, or by the generator during cleanup
+across all iterations of the current run.
 
-`isFullGeneration` — `true` для полного запуска `runFullCycle()` и `false` для инкрементального
-запуска в watch-режиме. Полезен для запуска полной проверки
+`isFullGeneration` is `true` for a full `runFullCycle()` run and `false` for an incremental run in watch mode.
+Useful for deciding when to run a full check
 
-## Vitest запускает связанные тесты
+## Vitest runs related tests
 
-При полной генерации и после удаления файлов запускаются все тесты, а при инкрементальной - только связанные с изменёнными файлами
+All tests run during full generation and after files are deleted; incremental generation runs only tests related to changed files
 
-### Конфигурация
+### Configuration
 
 ```ts
 new CheckerCli({
@@ -4461,7 +4464,7 @@ it('doubles a number', () => {
 });
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -4478,7 +4481,7 @@ it('doubles a number', () => {
 export const sum = (a: number, b: number) => a - b;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] src/sum.ts
@@ -4516,7 +4519,7 @@ export const sum = (a: number, b: number) => a - b;
 
 **remove: src/obsolete.ts**
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] src/obsolete.ts
@@ -4559,7 +4562,7 @@ export const sum = (a: number, b: number) => a - b;
 export const sum = (a: number, b: number) => a + b;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] src/sum.ts
@@ -4568,11 +4571,11 @@ export const sum = (a: number, b: number) => a + b;
 [ARFA-GEN] finished 1 iteration in 0ms
 ```
 
-## Biome проверяет только изменённые файлы
+## Biome checks only changed files
 
-Если измененных файлов не было (например, были только удаленные), проверка пропускается
+If no files were changed (for example, if files were only deleted), the check is skipped
 
-### Конфигурация
+### Configuration
 
 ```ts
 new CheckerCli({
@@ -4614,7 +4617,7 @@ new CheckerCli({
 export const answer = 42;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -4631,7 +4634,7 @@ export const answer = 42;
 export const answer=42;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] src/draft.ts
@@ -4660,7 +4663,7 @@ export const answer=42;
 export const answer = 42;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] src/draft.ts
@@ -4669,11 +4672,11 @@ export const answer = 42;
 [ARFA-GEN] finished 1 iteration in 0ms
 ```
 
-## проверка типов через tsc
+## Type checking with tsc
 
-В данном случае tsc запускается для всего проекта, даже если были только удаленные файлы
+In this example, tsc runs for the entire project, even if files were only deleted
 
-### Конфигурация
+### Configuration
 
 ```ts
 new CheckerCli({
@@ -4706,7 +4709,7 @@ new CheckerCli({
 export const count: number = 1;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -4723,7 +4726,7 @@ export const count: number = 1;
 export const count: number = 'one';
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] src/count.ts
@@ -4744,7 +4747,7 @@ export const count: number = 'one';
 export const count: number = 1;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] src/count.ts
@@ -4757,11 +4760,11 @@ export const count: number = 1;
 
 # CheckerEnvKeys
 
-Проверяет совпадение нескольких списков ключей и дубликаты внутри них. Для безопасности чекер не читает файлы сам, их
-парсинг остается за пользователем.
+Checks that multiple lists of keys match and that each list contains no duplicates. For security, the checker does not
+read files itself; parsing them is left to the user.
 
-Для watch-режима env-файлы должны находиться внутри `rootDir`. Передавайте ключи через геттер `envKeys`, как в примерах:
-массив, созданный один раз, не обновится.
+For watch mode, env files must be inside `rootDir`. Pass keys through the `envKeys` getter, as shown in the examples:
+an array created once will not update.
 
 ```ts
 envKeys: Array<{ 
@@ -4770,17 +4773,17 @@ envKeys: Array<{
 }>
 ```
 
-Массив объектов, каждый из которых содержит:
+An array of objects, each containing:
 
-`name` — имя набора ключей (чаще всего удобно использовать имя файла)
+`name` — the name of the key set (the file name is often a convenient choice)
 
-`keys` — массив строк с названиями переменных окружения (либо другой список ключей)
+`keys` — an array of environment variable names (or another list of keys)
 
-## синхронизация env-файлов
+## Keeping env files in sync
 
-Чекер сравнивает ключи в .env и .example.env и сообщает о расхождении
+The checker compares keys in .env and .example.env and reports mismatches
 
-### Конфигурация
+### Configuration
 
 ```ts
 new CheckerEnvKeys({
@@ -4813,7 +4816,7 @@ NODE_ENV=development
 EXPRESS_PORT=3000
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -4832,7 +4835,7 @@ EXPRESS_PORT=3000
 HOT_RELOAD=true
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] .env
@@ -4854,7 +4857,7 @@ EXPRESS_PORT=3000
 HOT_RELOAD=false
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] .example.env
@@ -4863,11 +4866,11 @@ HOT_RELOAD=false
 [ARFA-GEN] finished 1 iteration in 0ms
 ```
 
-## env-файлы и типизированный env-объект
+## Env files and a typed env object
 
-Ключи файлов сравниваются с ключами готового env-объекта. Так чекер находит переменные, объявленные в коде, но забытые в env-файлах
+Keys from the files are compared with keys from an existing env object. This lets the checker find variables declared in code but missing from the env files
 
-### Конфигурация
+### Configuration
 
 ```ts
 new CheckerEnvKeys({
@@ -4926,7 +4929,7 @@ NODE_ENV=production
 EXPRESS_PORT=8080
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -4968,7 +4971,7 @@ EXPRESS_PORT=8080
 HOT_RELOAD=false
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] .env
@@ -4979,11 +4982,11 @@ HOT_RELOAD=false
 [ARFA-GEN] finished 1 iteration in 0ms
 ```
 
-## дубли ключей в env-файле
+## Duplicate keys in an env file
 
-Для демонстрации дублей в данном случае используется построчное чтение
+This example reads the file line by line to demonstrate duplicate detection
 
-### Конфигурация
+### Configuration
 
 ```ts
 new CheckerEnvKeys({
@@ -5009,7 +5012,7 @@ NODE_ENV=development
 EXPRESS_PORT=3000
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -5029,7 +5032,7 @@ NODE_ENV=production
 EXPRESS_PORT=8080
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] .env
@@ -5050,7 +5053,7 @@ NODE_ENV=development
 EXPRESS_PORT=3000
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] .env
@@ -5063,20 +5066,20 @@ EXPRESS_PORT=3000
 
 # CheckerBoundaries
 
-Проверяет архитектурные границы импортов: проходит по TypeScript-файлам проекта, резолвит импорты через
-`tsconfig.json` и сообщает о запрещенных импортах, группируя нарушения по файлам.
+Checks architectural import boundaries: scans the project’s TypeScript files, resolves imports through
+`tsconfig.json`, and reports forbidden imports, grouping violations by file.
 
 ```ts
 tsconfigPath: string
 ```
 
-Путь к tsconfig для резолвинга импортов и типов
+The path to tsconfig for resolving imports and types
 
 ```ts
 extensions: Array<string>
 ```
 
-Массив расширений файлов для проверки
+An array of file extensions to check
 
 ```ts
 rules: Array<{
@@ -5092,30 +5095,30 @@ rules: Array<{
 }>
 ```
 
-Массив правил, каждое из которых содержит:
+An array of rules, each containing:
 
-`entries` — glob-паттерны поиска файлов относительно `rootDir`, например `features/**`
-`exclude` — регулярное выражение для исключения файлов из обработки
+`entries` — glob patterns for finding files relative to `rootDir`, such as `features/**`
+`exclude` — a regular expression for excluding files from processing
 
-`allow` — объект с полями:
+`allow` — an object with the following fields:
 
-`imports` — glob-паттерны разрешённых импортов относительно `rootDir`
-`importsInsideScope` — разрешение импортов внутри области
-`node` — разрешить импорты с `node:` префиксом
-`external` — разрешить модули, определённые TypeScript как внешние библиотеки
+`imports` — glob patterns for allowed imports relative to `rootDir`
+`importsInsideScope` — the policy for imports within the scope
+`node` — allows imports with the `node:` prefix
+`external` — allows modules identified by TypeScript as external libraries
 
 ## importsInsideScope
 
-- `none` — запрещает импорты внутри той же области, если они явно не разрешены через `allow.imports`;
-- `all` — разрешает любые кросс-импорты внутри области;
-- `sameTopLevel` — разрешает импорты внутри одного модуля / feature, но запрещает импортировать из соседнего модуля /
-  feature.
+- `none` — forbids imports within the same scope unless explicitly allowed through `allow.imports`;
+- `all` — allows any cross-imports within the scope;
+- `sameTopLevel` — allows imports within the same module or feature, but forbids imports from a neighboring module
+  or feature.
 
-## импорты между слоями API и models
+## Imports between the API and models layers
 
-API-файлы могут импортировать модели, но не соседние API-файлы. Модели могут импортировать только друг друга; тестовые файлы исключены из проверки
+API files can import models, but not neighboring API files. Models can only import each other; test files are excluded from the check
 
-### Конфигурация
+### Configuration
 
 ```ts
 new CheckerBoundaries({
@@ -5187,7 +5190,7 @@ import type { TypeResponse } from './orders';
 export type TypeTestResponse = TypeResponse;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -5206,7 +5209,7 @@ import type { TypeResponse } from './orders';
 export type TypeOrderList = TypeResponse;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] api/getOrder.ts
@@ -5228,7 +5231,7 @@ import type { TypeOrder } from '../models/order';
 export type TypeOrderResult = { order: TypeOrder };
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] api/getOrder.ts
@@ -5247,7 +5250,7 @@ import type { TypeResponse } from '../api/orders';
 export type TypeOrderSummary = TypeResponse;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] models/orderSummary.ts
@@ -5269,7 +5272,7 @@ import type { TypeOrder } from './order';
 export type TypeOrderSummary = Pick<TypeOrder, 'id'>;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] models/orderSummary.ts
@@ -5278,11 +5281,11 @@ export type TypeOrderSummary = Pick<TypeOrder, 'id'>;
 [ARFA-GEN] finished 1 iteration in 0ms
 ```
 
-## изоляция feature-модулей
+## Feature module isolation
 
-sameTopLevel разрешает импорты внутри одного feature-модуля и из shared, но останавливает прямой импорт соседнего модуля даже через алиас и при широком allow.imports
+sameTopLevel allows imports within the same feature module and from shared, but blocks direct imports from neighboring modules, even through aliases and with broad allow.imports patterns
 
-### Конфигурация
+### Configuration
 
 ```ts
 new CheckerBoundaries({
@@ -5347,7 +5350,7 @@ import { formatId } from 'shared/formatId';
 export const orderLabel = (order: TypeOrder) => formatId(order.id);
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -5367,7 +5370,7 @@ import type { TypeCustomer } from 'features/customers/model';
 export type TypeOrderView = { order: TypeOrder; customer: TypeCustomer };
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] features/orders/view.ts
@@ -5390,7 +5393,7 @@ import { formatId } from 'shared/formatId';
 export const orderLabel = (order: TypeOrder) => formatId(order.id);
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:change] [0.000] features/orders/view.ts
@@ -5399,11 +5402,11 @@ export const orderLabel = (order: TypeOrder) => formatId(order.id);
 [ARFA-GEN] finished 1 iteration in 0ms
 ```
 
-## внешние пакеты и Node.js
+## External packages and Node.js
 
-Серверным файлам разрешены node:* импорты, а клиентским — внешние пакеты. Каждое разрешение действует отдельно
+Server files are allowed to use node:* imports, while client files are allowed to import external packages. Each permission applies independently
 
-### Конфигурация
+### Configuration
 
 ```ts
 new CheckerBoundaries({
@@ -5462,7 +5465,7 @@ import type { Ref } from 'vue';
 export type TypeValue = Ref<string>;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] run with all files
@@ -5481,7 +5484,7 @@ import type { Ref } from 'vue';
 export type TypeServerValue = Ref<string>;
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] server/value.ts
@@ -5497,7 +5500,7 @@ export type TypeServerValue = Ref<string>;
 
 **remove: server/value.ts**
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] server/value.ts
@@ -5516,7 +5519,7 @@ import path from 'node:path';
 export const clientPath = path.join('client', 'value');
 ```
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:add] [0.000] client/path.ts
@@ -5532,7 +5535,7 @@ export const clientPath = path.join('client', 'value');
 
 **remove: client/path.ts**
 
-**Вывод генератора**
+**Generator output**
 
 ```text
 [ARFA-GEN] [watch:unlink] [0.000] client/path.ts
@@ -5543,16 +5546,15 @@ export const clientPath = path.join('client', 'value');
 
 ---
 
-# Свой плагин
+# Custom plugin
 
-Плагин — это класс, который наследуется от `BasePlugin` и возвращает массив предложенных файлов. Самостоятельно писать
-файлы на диск плагину не нужно:
-это делает `FileGenerator`, чтобы все артефакты проходили через общий `headerTemplate`, `format`, логирование, cleanup и
-каскадные итерации.
+A plugin is a class that extends `BasePlugin` and returns an array of proposed files. The plugin does not need to
+write files to disk itself: `FileGenerator` handles this so that all artifacts go through the common `headerTemplate`,
+`format`, logging, cleanup, and cascading iterations.
 
 ### generate
 
-Метод для рекомендации генератору создать или изменить файлы.
+A method for proposing files for the generator to create or modify.
 
 ```ts
 import path from 'node:path';
@@ -5587,7 +5589,7 @@ export class PluginBuildInfo extends BasePlugin {
 rootDir: string
 ```
 
-Корневая директория, переданная в `FileGenerator`
+The root directory passed to `FileGenerator`
 
 ```ts
 changedFiles?: Array<{
@@ -5599,8 +5601,8 @@ changedFiles?: Array<{
 }>
 ```
 
-Список изменившихся файлов в watch-режиме или каскадной итерации. На первой итерации `generator.runFullCycle()` приходит
-`undefined`
+The list of files changed in watch mode or a cascading iteration. On the first iteration of
+`generator.runFullCycle()`, this is `undefined`
 
 ```ts
 pluginLog: (log: {
@@ -5609,7 +5611,7 @@ pluginLog: (log: {
 }) => void
 ```
 
-Функция для регистрации информационных сообщений
+A function for logging informational messages
 
 ```ts
 pluginError: (log: {
@@ -5619,10 +5621,10 @@ pluginError: (log: {
 }) => void
 ```
 
-Функция для регистрации ошибок
+A function for reporting errors
 
-При неизменных входных данных возвращайте одинаковое содержимое. `Date.now()`, случайные значения или другие
-изменяющиеся данные внутри `generate` могут вызвать каскад (до лимита в 10 итераций).
+Return the same content for unchanged inputs. `Date.now()`, random values, or other changing data inside
+`generate` can trigger cascading iterations (up to the limit of 10).
 
 ### TypeGeneratedFiles
 
@@ -5630,29 +5632,29 @@ pluginError: (log: {
 plugin: string
 ```
 
-Имя плагина для логов
+The plugin name used in logs
 
 ```ts
 filePath: string
 ```
 
-Абсолютный путь целевого файла
+The absolute path of the target file
 
 ```ts
 rawContent: string
 ```
 
-Содержимое до `headerTemplate` и `format`
+The content before `headerTemplate` and `format` are applied
 
 ```ts
 skipHeader?: boolean
 ```
 
-Отключает общий header для конкретного файла. Полезен для JSON, ассетов, документации и т.п.
+Disables the common header for this file. Useful for JSON, assets, documentation, etc.
 
 ### cleanup
 
-Метод для рекомендации генератору удалить файлы.
+A method for proposing files for the generator to delete.
 
 ```ts
 import path from 'node:path';
@@ -5701,7 +5703,7 @@ export class PluginBuildInfo extends BasePlugin {
 rootDir: string
 ```
 
-Корневая директория, переданная в `FileGenerator`
+The root directory passed to `FileGenerator`
 
 ```ts
 changedFiles?: Array<{
@@ -5713,18 +5715,18 @@ changedFiles?: Array<{
 }>
 ```
 
-Список изменившихся файлов в watch-режиме или каскадной итерации. На первой итерации `generator.runFullCycle()` приходит
-`undefined`
+The list of files changed in watch mode or a cascading iteration. On the first iteration of
+`generator.runFullCycle()`, this is `undefined`
 
 ```ts
 generatedFiles: TypeGeneratedFiles
 ```
 
-Результаты успешно завершившихся вызовов `generate` всех плагинов за текущую итерацию, включая не записанные на диск
-из-за совпадения контента
+The results of successful `generate` calls from all plugins in the current iteration, including files not written
+to disk because their content was unchanged
 
-Cleanup вызывается после записи и получает результаты успешно завершившихся вызовов `generate` за текущую итерацию. Если
-`generate` плагина выбросил исключение, его cleanup не выполняется, сохраняя ранее созданные артефакты.
+Cleanup runs after writing and receives the results of successful `generate` calls from the current iteration. If a
+plugin’s `generate` throws an exception, its cleanup is skipped, preserving previously created artifacts.
 
 ### TypeCleanupFiles
 
@@ -5732,17 +5734,17 @@ Cleanup вызывается после записи и получает рез�
 plugin: string
 ```
 
-Имя плагина для логов
+The plugin name used in logs
 
 ```ts
 filePath: string
 ```
 
-Абсолютный путь файла, который генератор должен удалить
+The absolute path of the file the generator should delete
 
-## Встроенные helpers
+## Built-in helpers
 
-`BasePlugin` содержит два helper-метода, которые возвращают отсортированные абсолютные пути:
+`BasePlugin` provides two helper methods that return sorted absolute paths:
 
 ```ts
 globToPaths(params: {
@@ -5753,7 +5755,7 @@ globToPaths(params: {
 }): Array<string>
 ```
 
-Находит файлы или директории по glob-паттернам относительно `rootDir`
+Finds files or directories using glob patterns relative to `rootDir`
 
 ```ts
 getDirectChildren(params: {
@@ -5763,18 +5765,18 @@ getDirectChildren(params: {
 }): Array<string>
 ```
 
-Возвращает прямые дочерние файлы папки с опциональной фильтрацией
+Returns the immediate child files of a folder, with optional filtering
 
-`entries` задаются относительно `rootDir` без абсолютных путей, а сегменты `..` не допускаются.
+`entries` are specified relative to `rootDir`; absolute paths and `..` segments are not allowed.
 
-`exclude` проверяет имя файла или папки.
+`exclude` matches against the file or folder name.
 
 ---
 
-# Свой чекер
+# Custom checker
 
-Чекер — это класс, который наследуется от `BaseChecker` и проверяет уже стабилизированное состояние проекта. Чекеры
-запускаются после того, как плагины завершили генерацию, cleanup, запись файлов и все каскадные итерации.
+A checker is a class that extends `BaseChecker` and checks the stabilized state of the project. Checkers run
+after plugins have completed generation, cleanup, file writes, and all cascading iterations.
 
 ### check
 
@@ -5804,7 +5806,7 @@ export class CheckerReadme extends BaseChecker {
 rootDir: string
 ```
 
-Корневая директория, переданная в `FileGenerator`
+The root directory passed to `FileGenerator`
 
 ```ts
 changedFiles: Array<{
@@ -5813,8 +5815,8 @@ changedFiles: Array<{
 }>
 ```
 
-Список уникальных путей файлов, добавленных или изменённых пользователем в watch-режиме либо записанных генератором за
-все итерации текущего запуска, за исключением удаленных файлов
+Unique paths of files added or changed by the user in watch mode, or written by the generator across all
+iterations of the current run, excluding deleted files
 
 ```ts
 deletedFiles: Array<{
@@ -5823,14 +5825,14 @@ deletedFiles: Array<{
 }>
 ```
 
-Список уникальных путей файлов, удалённых пользователем в watch-режиме либо генератором при cleanup за все итерации
-текущего запуска
+Unique paths of files deleted by the user in watch mode, or by the generator during cleanup across all
+iterations of the current run
 
 ```ts
 isFullGeneration: boolean
 ```
 
-`true` для полного запуска `runFullCycle()` и `false` для инкрементального запуска в watch-режиме
+`true` for a full `runFullCycle()` run and `false` for an incremental run in watch mode
 
 ```ts
 checkerLog: (log: {
@@ -5838,7 +5840,7 @@ checkerLog: (log: {
 }) => void
 ```
 
-Функция для регистрации информационных сообщений
+A function for logging informational messages
 
 ```ts
 checkerError: (log: {
@@ -5847,54 +5849,54 @@ checkerError: (log: {
 }) => void
 ```
 
-Функция для регистрации ошибок
+A function for reporting errors
 
-## Регистрация ошибок
+## Reporting errors
 
-Если чекер может найти несколько независимых нарушений, лучше вызвать `checkerError` для каждого из них и не бросать
-исключение, чтобы в логах сохранился весь список.
+If a checker can find multiple independent violations, call `checkerError` for each one instead of throwing
+an exception, so the full list is preserved in the logs.
 
-`throw` можно использовать для инфраструктурных сбоев: ошибки чтения, невозможность запустить внешний инструмент и т.п.
-`FileGenerator` перехватит исключение и добавит его в общий результат как ошибку чекера, которая не блокирует следующий
-чекер или метод `afterCheckers`.
+Use `throw` for infrastructure failures, such as read errors or an inability to start an external tool.
+`FileGenerator` catches the exception and adds it to the overall result as a checker error, without blocking
+the next checker or the `afterCheckers` method.
 
 ---
 
 # api-contract-check
 
-Размер (builder): 3.94 KB
-Размер (checker): 0.8 KB
+Size (builder): 3.94 KB
+Size (checker): 0.8 KB
 
-Эта библиотека входит в `@arfa-tools/generator` и строит сериализуемые схемы валидации из TypeScript-типов.
-Поддерживаются TS alias для разрешения импортов, а также in-memory файлы (еще не сохраненные на диск) для длинных
-цепочек преобразований.
+This library is included in `@arfa-tools/generator` and builds serializable validation schemas from TypeScript types.
+It supports TypeScript aliases for resolving imports, as well as in-memory files (not yet saved to disk) for long
+transformation chains.
 
-Библиотека ориентирована на JSON-совместимые контракты. Неподдерживаемые типы деградируют до `any`, который принимает
-любое значение. Деградации можно логировать.
+The library is designed for JSON-compatible contracts. Unsupported types fall back to `any`, which accepts
+any value. These fallbacks can be logged.
 
-Для большинства сценариев достаточно использовать PluginValidators, который уже
-содержит эффективную схему использования библиотеки. Однако если генератор использовать не получится (например, у вас
-свой пайплайн генерации или нужна кастомная логика), можно использовать API-интерфейс напрямую.
+For most scenarios, PluginValidators is sufficient: it already provides
+an efficient way to use the library. If you cannot use the generator (for example, if you have your own generation
+pipeline or need custom logic), you can use the API directly.
 
-Сгенерированные схемы валидации подходят для проверки запросов и ответов API, формирования документации, генерации типов
-для других языков, преобразования в схемы валидации сторонних библиотек и т.п.
+The generated validation schemas can be used to validate API requests and responses, produce documentation, generate
+types for other languages, convert to validation schemas for third-party libraries, and more.
 
-## Поддерживаемые типы
+## Supported types
 
-- `any`, `number`, `object`, `boolean`, `string`, `null`, строковые, числовые и boolean literals;
-- type aliases, interfaces, inline-объекты, обязательные и optional-свойства;
-- наследование от базовых interfaces без generic-аргументов: свойства объединяются;
-- массивы (`T[]`, `Array<T>`), фиксированные tuple и `Record<string, T>`;
-- подстановка параметров generic type aliases, например `type Box<T> = { value?: T }`;
-- indexed access по конкретному ключу объекта (`User['id']`) или элементу массива (`UserList[number]`);
-- unions и пересечения объектов с совместимыми повторяющимися свойствами;
-- самоссылки объекта внутри массивов, включая union и tuple: `children: Array<Node | string>`;
-- enum с literal-инициализаторами и числовой автонумерацией, ссылки `Enum.Member`;
-- именованные импорты, re-export, `export *` и path aliases из `tsconfig.json`.
+- `any`, `number`, `object`, `boolean`, `string`, `null`, and string, numeric, and boolean literals;
+- type aliases, interfaces, inline objects, and required and optional properties;
+- inheritance from base interfaces without generic arguments: properties are merged;
+- arrays (`T[]`, `Array<T>`), fixed-length tuples, and `Record<string, T>`;
+- substitution of generic type alias parameters, such as `type Box<T> = { value?: T }`;
+- indexed access with a specific object key (`User['id']`) or an array element (`UserList[number]`);
+- unions and intersections of objects with compatible overlapping properties;
+- object self-references within arrays, including unions and tuples: `children: Array<Node | string>`;
+- enums with literal initializers and automatic numeric values, and `Enum.Member` references;
+- named imports, re-exports, `export *`, and path aliases from `tsconfig.json`.
 
-Этого достаточно для описания практически всего, что может прийти из внешнего API.
+This is enough to describe almost anything that can come from an external API.
 
-**Пример поддерживаемых типов и сгенерированной схемы валидации**
+**Example of supported types and the generated validation schema**
 
 ```ts
 enum TypeStatus { Draft = 1, Published, Archived = 7 }
@@ -6040,19 +6042,19 @@ const positiveSchema = {
 } satisfies TypeRootSchema;
 ```
 
-## Неподдерживаемые (деградирующие до any) типы
+## Unsupported types (fall back to any)
 
-- `Promise<T>`, `Map<K, V>` и другие неизвестные generic-контейнеры, generic interfaces и `extends Base<T>`;
-- `Record<K, V>`, где ключ не задан непосредственно как `string`;
-- dynamic или отсутствующие ключи indexed access, indexed access для tuple;
-- mapped, conditional и function types, computed property names, вычисляемые enum-инициализаторы;
-- optional- и rest-элементы tuple, несовместимые пересечения;
-- прямые цикличные ссылки вне массивов, циклы aliases и рекурсивные корни, не являющиеся объектами;
-- references через default/namespace imports; эти импорты учитываются только как файловые зависимости.
+- `Promise<T>`, `Map<K, V>`, and other unknown generic containers, generic interfaces, and `extends Base<T>`;
+- `Record<K, V>` where the key is not specified directly as `string`;
+- indexed access with dynamic or missing keys, and indexed access on tuples;
+- mapped, conditional, and function types, computed property names, and computed enum initializers;
+- optional and rest tuple elements, and incompatible intersections;
+- direct circular references outside arrays, alias cycles, and recursive roots that are not objects;
+- references through default or namespace imports; these imports are tracked only as file dependencies.
 
-Деградации можно отслеживать через `getDegraded`. В union наличие ветки `any` превращает весь union в `any`.
+You can track fallbacks through `getDegraded`. If a union contains an `any` branch, the entire union becomes `any`.
 
-**Пример неподдерживаемых типов и сгенерированной схемы валидации**
+**Example of unsupported types and the generated validation schema**
 
 ```ts
 type UnsupportedMapped = { [K in 'a' | 'b']: number };
@@ -6113,9 +6115,9 @@ const fallbackSchema = {
 
 ---
 
-# Генерация схем валидации
+# Validation schema generation
 
-`createValidators` принимает список файлов и настройки проекта:
+`createValidators` accepts a list of files and project settings:
 
 ```ts
 import path from 'node:path';
@@ -6133,9 +6135,9 @@ const { result, deps } = createValidators(
 );
 ```
 
-Input-файлы должны локально объявлять оба root-типа через `type` или `interface`. Экспортировать их не обязательно. Файлы
-без объявленных типов запроса и ответа пропускаются. Если объявлен только один из двух типов или не найдено ни одного
-контракта (включая пустой список файлов), вызов завершится ошибкой.
+Input files must declare both root types locally using `type` or `interface`. They do not have to be exported. Files
+that declare neither the request nor the response type are skipped. If only one of the two types is declared, or no
+contracts are found (including an empty file list), the call fails with an error.
 
 ```ts
 import type { TypeUser } from '../models/TypeUser';
@@ -6145,52 +6147,52 @@ type TypeRequest = { id: string; };
 type TypeResponse = TypeUser;
 ```
 
-Типы могут ссылаться на именованные импорты, включая `import type`, re-export и `export *` из barrel-файлов.
-Поддерживаются path aliases из `tsconfig.json`.
+Types can reference named imports, including `import type`, re-exports, and `export *` from barrel files.
+Path aliases from `tsconfig.json` are supported.
 
-### Аргументы
+### Arguments
 
-Первый аргумент — `input`, второй — объект с остальными перечисленными полями.
+The first argument is `input`; the second is an object containing the remaining fields listed below.
 
 ```ts
 input: Array<string>
 ```
 
-Абсолютные пути входных файлов
+Absolute paths of the input files
 
 ```ts
 tsconfigPath: string
 ```
 
-Путь к `tsconfig.json` на диске для разрешения импортов и path aliases.
-Относительный путь разрешается от `process.cwd()`
+The path to `tsconfig.json` on disk for resolving imports and path aliases.
+Relative paths are resolved from `process.cwd()`
 
 ```ts
 requestDeclaration: string
 ```
 
-Имя локальной декларации типа запроса, например `TypeRequest`
+The name of the local request type declaration, such as `TypeRequest`
 
 ```ts
 responseDeclaration: string
 ```
 
-Имя локальной декларации типа ответа, например `TypeResponse`
+The name of the local response type declaration, such as `TypeResponse`
 
 ```ts
 readFile?: (filePath: string) => string | undefined
 ```
 
-Чтение исходников по абсолютному пути. Возврат `undefined` означает чтение с диска
+Reads source files by absolute path. Returning `undefined` falls back to reading from disk
 
 ```ts
 getDegraded?: (names: Array<string>) => void
 ```
 
-Получает отсортированные уникальные имена свойств или root-деклараций, деградировавших до `any`,
-без полных путей. Вызывается один раз за запуск при наличии деградаций
+Receives sorted, unique names of properties or root declarations that fell back to `any`,
+without full paths. Called once per run if any fallbacks occurred
 
-### Результат
+### Result
 
 ```ts
 result: Array<{
@@ -6202,19 +6204,19 @@ result: Array<{
 }>
 ```
 
-Схемы валидации найденных контрактов. `filePath` — абсолютный путь файла;
-`schema.request` и `schema.response` содержат сериализуемые схемы валидации запроса и ответа
+Validation schemas for the contracts found. `filePath` is the absolute file path;
+`schema.request` and `schema.response` contain serializable request and response validation schemas
 
 ```ts
 deps: Record<string, Array<string>>
 ```
 
-Обратная карта зависимостей: импортируемый файл → затронутые entry-файлы.
-Все пути в ключах и значениях абсолютные
+A reverse dependency map: imported file → affected entry files.
+All paths in keys and values are absolute
 
-## In-memory файлы
+## In-memory files
 
-`createValidators` читает файлы с диска, из памяти или из обоих источников. Пример чтения контрактов из памяти:
+`createValidators` reads files from disk, from memory, or from both sources. Here is an example of reading contracts from memory:
 
 ```ts
 const entryFilePath = '/virtual/api/getUser.ts';
@@ -6235,21 +6237,21 @@ const { result } = createValidators(
 );
 ```
 
-Это позволяет делать многочисленные трансформации и операции над файлами (например, если типы запроса и ответа выводятся
-из OpenAPI, а `api-contract-check` на лету генерирует схемы валидации) и сохранять на диск единым батчем.
+This lets you perform multiple transformations and file operations (for example, deriving request and response types
+from OpenAPI while `api-contract-check` generates validation schemas on the fly) and save everything to disk in a single batch.
 
 ---
 
-# Валидация данных
+# Payload validation
 
-Размер (checker): 0.8 KB
+Size (checker): 0.8 KB
 
-`check` проверяет объекты и массивы по схеме валидации. Поля, отсутствующие в схеме валидации, удаляются мутацией с
-опциональным логированием. Несоответствия возвращаются списком ошибок.
+`check` validates objects and arrays against a validation schema. Fields absent from the schema are deleted in place
+by mutation, with optional logging. Mismatches are returned as a list of errors.
 
-Благодаря компактному размеру библиотеки и схемам валидации итоговый бандл увеличивается незначительно, а нативные
-TS-типы не замедляют `tsc` и IDE, в отличие от библиотек, требующих описывать схемы валидации вручную и использующих
-сложное выведение типов.
+The compact library and validation schemas add little to the final bundle size. Native TS types also avoid slowing
+down `tsc` and the IDE, unlike libraries that require manually defined validation schemas and rely on complex
+type inference.
 
 ```ts
 import { check } from '@arfa-tools/generator/api-contract-check/checker';
@@ -6268,7 +6270,7 @@ console.log(errors); // null
 console.log(value); // { id: 'user-1' }
 ```
 
-Примеры errors:
+Example errors:
 
 ```ts
 [
@@ -6278,25 +6280,25 @@ console.log(value); // { id: 'user-1' }
 ];
 ```
 
-### Аргументы
+### Arguments
 
 ```ts
 schema: TypeRootSchema
 ```
 
-Полная схема валидации контракта `{ request, response }`, возвращаемая `createValidators`
+The complete `{ request, response }` contract validation schema returned by `createValidators`
 
 ```ts
 type: 'request' | 'response'
 ```
 
-Часть схемы валидации, по которой проверяется значение
+The part of the validation schema used to check the value
 
 ```ts
 value: unknown
 ```
 
-Проверяемые данные. Неизвестные поля объектов удаляются на месте (мутацией), даже при ошибках
+The data to validate. Unknown object fields are deleted in place (by mutation), even when validation errors occur
 
 ```ts
 getExtraneous?: (
@@ -6304,13 +6306,13 @@ getExtraneous?: (
 ) => void
 ```
 
-Получает уникальные пути удалённых полей. Вызывается один раз, только при наличии удалений,
-в том числе при ошибках проверки. Индексы массивов в путях заменяются на `[]`
+Receives unique paths of deleted fields. Called once, only if fields were deleted,
+including when validation errors occur. Array indices in paths are replaced with `[]`
 
-## Использование в fetch
+## Using with fetch
 
-Обёртка для JSON POST-запросов использует сгенерированную схему валидации: проверяет запрос перед отправкой и ответ
-перед возвратом. Таким образом, TS-типы запроса и ответа полностью совпадают с реальными данными.
+The wrapper for JSON POST requests uses a generated validation schema: it checks the request before sending it and
+the response before returning it. This ensures that the TS request and response types match the actual data exactly.
 
 ```ts
 import { check, type TypeRootSchema } from '@arfa-tools/generator/api-contract-check/checker';
@@ -6365,12 +6367,12 @@ const user = await request<TypeRequest, TypeResponse>({
 });
 ```
 
-## Использование в WebSocket
+## Using with WebSocket
 
-Обёртка для WebSocket-запросов использует сгенерированную схему валидации: проверяет запрос перед отправкой и ответ
-перед возвратом. Таким образом, TS-типы запроса и ответа полностью совпадают с реальными данными.
+The wrapper for WebSocket requests uses a generated validation schema: it checks the request before sending it and
+the response before returning it. This ensures that the TS request and response types match the actual data exactly.
 
-Сервер в данном случае принимает JSON-сообщения `{ id, method, payload }` и отвечает в формате `{ id, payload }`.
+In this example, the server accepts JSON messages in the `{ id, method, payload }` format and responds with `{ id, payload }`.
 
 ```ts
 import { check, type TypeRootSchema } from '@arfa-tools/generator/api-contract-check/checker';
@@ -6436,12 +6438,12 @@ const user = await request<TypeRequest, TypeResponse>({
 
 ---
 
-# Инкрементальная генерация
+# Incremental generation
 
-Для пересборки после изменения зависимости можно сохранить `deps` полного запуска и обновлять после пересборки
-затронутых entry-файлов.
+To rebuild after a dependency changes, save `deps` from a full run and update it after rebuilding
+the affected entry files.
 
-Entry-файлы не включаются в `deps`, их нужно передавать напрямую.
+Entry files are not included in `deps`; you need to pass them directly.
 
 ```ts
 import path from 'node:path';
@@ -6478,10 +6480,10 @@ if (affectedEntries.length) {
 
 # Demo: Order Management
 
-Этот небольшой интерфейс управления заказами показывает `@arfa-tools/generator` как слой генерации, проверок и LLM
-feedback в типовом React + Vite-проекте. В данном примере используется FSD 2.1 архитектура.
+This small order management interface demonstrates `@arfa-tools/generator` as a layer for generation, checks, and LLM
+feedback in a typical React + Vite project. This example uses the FSD 2.1 architecture.
 
-### Предпросмотр
+### Preview
 
 **examples/orders/builder/generatorFirst.ts**
 
@@ -6829,7 +6831,7 @@ export const generator = new FileGenerator({
 });
 ```
 
-### Скачивание
+### Download
 
 ```shell
 npx degit dkazakov8/arfa-generator/examples/orders react-example
@@ -6837,20 +6839,20 @@ cd react-example
 npm install
 ```
 
-### Режимы запуска
+### Run modes
 
-| Команда                         | Поведение                                                                                                                                                                                                                                                                                                                                         |
-|---------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `npm run parallel`              | Один проход генерации и проверок, затем отдельная сборка Vite                                                                                                                                                                                                                                                                                     |
-| `npm run parallel-watch`        | Первоначальная генерация, затем параллельная работа вотчера генератора и dev-сервера Vite с HMR. В большинстве случаев будет 2 HMR-обновления: первый после редактирования файла, второй — после записи генератором новых файлов. Обратите внимание, что в данном случае генератор не знает об ошибках при сборке и не выводит их в едином отчете |
-| `npm run generator-first`       | Один проход генерации и проверок со сборкой Vite внутри `afterCheckers`                                                                                                                                                                                                                                                                           |
-| `npm run generator-first-watch` | Первоначальная генерация и сборка, затем watch только генератора; каждая следующая сборка вызывается в `afterCheckers`. В этом случае не работает HMR, а обновление страницы делается кастомным плагином, который перезагружает страницу только 1 раз — после завершения всего цикла, включая сборку. Ошибки сборки попадают в отчет              |
-| `npm run feedback`              | Получение последнего отчета в Markdown-формате (удобно для LLM-агентов)                                                                                                                                                                                                                                                                           |
+| Command | Behavior |
+|---------|----------|
+| `npm run parallel` | One generation and check cycle, followed by a separate Vite build |
+| `npm run parallel-watch` | Initial generation, then the generator watcher and Vite dev server with HMR run in parallel. In most cases, there are two HMR updates: the first after a file is edited, and the second after the generator writes new files. In this mode, the generator is unaware of build errors and does not include them in the unified report |
+| `npm run generator-first` | One generation and check cycle, with the Vite build running inside `afterCheckers` |
+| `npm run generator-first-watch` | Initial generation and build, then only the generator watches for changes; each subsequent build runs in `afterCheckers`. HMR is not available in this mode. Instead, a custom plugin reloads the page once, after the entire cycle, including the build, has completed. Build errors are included in the report |
+| `npm run feedback` | Retrieves the latest report in Markdown format (useful for LLM agents) |
 
-### Сгенерированные файлы
+### Generated files
 
-**ARFA Generator** создает и обновляет следующие файлы (список получен с
-помощью getControlledFiles):
+**ARFA Generator** creates and updates the following files (the list was retrieved
+using getControlledFiles):
 
 ```text
 shared/i18n/usedTranslations.json
@@ -6884,18 +6886,18 @@ shared/ui/MoneyText/package.json
 shared/ui/MoneyText/index.ts
 ```
 
-### Попробуйте вызвать ошибки
+### Try triggering errors
 
-Запустите `npm run generator-first-watch` и вносите изменения по одному. Последний отчёт можно получить командой
-`npm run feedback`. Перед следующим экспериментом отменяйте предыдущую правку.
+Run `npm run generator-first-watch` and make one change at a time. Retrieve the latest report with
+`npm run feedback`. Undo each change before trying the next experiment.
 
-- Переименуйте тип `TypeRequest` в `src/shared/api/orders/contracts/orders.ts` вместе с его использованиями — ошибка
-  генерации схем валидации.
-- Импортируйте страницу заказов из страницы клиентов — нарушение границ между страницами.
-- Импортируйте любую страницу из компонента в `shared/ui` — нарушение границ слоя shared.
-- В `App.tsx` замените импорт из `pages/orders` на `pages/orders/ui/OrdersPage` — нарушение публичного API страницы.
-- В `loadOrders.ts` переименуйте экспортируемую async-функцию, сохранив имя файла — ошибка валидации реэкспорта.
-- В `OrderStatusBadge/messages.ts` уберите `export` у объявления messages — ошибка обработки переводов.
-- В `App.tsx` укажите несуществующий модуль в импорте — ошибка сборки Vite.
-- Обратитесь к необъявленной переменной в TypeScript-файле — диагностика tsc.
-- Добавьте `debugger;` в тело функции в `loadOrders.ts` — диагностика Biome.
+- Rename the `TypeRequest` type in `src/shared/api/orders/contracts/orders.ts` and all its usages — a validation schema
+  generation error.
+- Import the orders page from the customers page — a violation of page boundaries.
+- Import any page from a component in `shared/ui` — a violation of the shared layer’s boundaries.
+- In `App.tsx`, change the import from `pages/orders` to `pages/orders/ui/OrdersPage` — a violation of the page’s public API.
+- In `loadOrders.ts`, rename the exported async function while keeping the file name — a re-export validation error.
+- In `OrderStatusBadge/messages.ts`, remove `export` from the messages declaration — a translation processing error.
+- In `App.tsx`, import a module that does not exist — a Vite build error.
+- Reference an undeclared variable in a TypeScript file — a tsc diagnostic.
+- Add `debugger;` inside a function in `loadOrders.ts` — a Biome diagnostic.

@@ -14,17 +14,44 @@ const { id, steps, title, description } = props.recipe;
 
 const { lang: pageLang } = useData();
 
+const translations = {
+  ru: {
+    example: 'Пример',
+    runSandbox: 'Запустить Sandbox',
+    user: 'USER',
+    fileCreated: 'создан с содержимым:',
+    fileChanged: 'изменён, новое содержимое:',
+    fileRemoved: 'удалён',
+    showsLogs: 'выводит логи:',
+    updatedFiles: 'обновил файлы проекта:',
+    generatedFiles: 'сгенерировал файлы:',
+    copyCode: 'Копировать код',
+  },
+  en: {
+    example: 'Example',
+    runSandbox: 'Run Sandbox',
+    user: 'USER',
+    fileCreated: 'was created with content:',
+    fileChanged: 'was updated with content:',
+    fileRemoved: 'was removed',
+    showsLogs: 'shows logs:',
+    updatedFiles: 'updated project files:',
+    generatedFiles: 'generated files:',
+    copyCode: 'Copy code',
+  },
+};
+
 const highlightedCode = reactive(new Map<string, string | null>());
 
 function getCodeKey(code: TypeSandboxCode): string {
-  return `${code.lang}\x00${code.content}`;
+  return `${pageLang.value}\x00${code.lang}\x00${code.content}`;
 }
 
 function wrapCodeHtml(code: TypeSandboxCode, html: string): string {
   const lang = code.lang === 'svg' || code.lang === 'console' ? 'txt' : code.lang;
 
   return `<div class="language-${lang}">
-    <button title="Copy Code" class="copy"></button>
+    <button title="${state.text.copyCode}" class="copy"></button>
     <span class="lang">${lang}</span>
     ${html.replace('<pre ', '<pre dir="ltr" v-pre="" ')}
   </div>`.replace(/(\n\s+)/g, '\n');
@@ -106,6 +133,10 @@ class VM {
     return pageLang.value === 'ru' ? 'ru' : 'en';
   }
 
+  get text() {
+    return translations[this.selectedLanguage];
+  }
+
   get title() {
     return title[this.selectedLanguage];
   }
@@ -125,11 +156,11 @@ const state = reactive(new VM());
 
 <template>
   <div class="wrapper">
-    <h2 :id="id">Пример: {{ state.title }}</h2>
+    <h2 :id="id">{{ state.text.example }}: {{ state.title }}</h2>
     <p class="description" v-html="state.description" />
     <div class="plugin-code" v-html="renderCode(recipe.pluginCode)" />
 
-    <Accordion title="Run Sandbox">
+    <Accordion :title="state.text.runSandbox">
       <div class="vp-code-group">
         <div class="tabs">
           <template v-for="(step, stepIndex) in recipe.steps" :key="step.title">
@@ -153,9 +184,9 @@ const state = reactive(new VM());
           :key="inputFile.path"
           class="inputFiles"
         >
-          <div class="inputFilesDescription" v-if="inputFile.operation === 'add'">USER: {{ inputFile.path }} was created with content</div>
-          <div class="inputFilesDescription" v-else-if="inputFile.operation === 'change'">USER: {{ inputFile.path }} was updated with content</div>
-          <div class="inputFilesDescription" v-else>USER: {{ inputFile.path }} was removed</div>
+          <div class="inputFilesDescription" v-if="inputFile.operation === 'add'">{{ state.text.user }}: {{ inputFile.path }} {{ state.text.fileCreated }}</div>
+          <div class="inputFilesDescription" v-else-if="inputFile.operation === 'change'">{{ state.text.user }}: {{ inputFile.path }} {{ state.text.fileChanged }}</div>
+          <div class="inputFilesDescription" v-else>{{ state.text.user }}: {{ inputFile.path }} {{ state.text.fileRemoved }}</div>
           <div
             v-if="inputFile.operation !== 'remove'"
             class="block active"
@@ -164,7 +195,7 @@ const state = reactive(new VM());
         </div>
       </div>
 
-      <div class="systemText"><b>ARFA Generator</b> shows logs:</div>
+      <div class="systemText"><b>ARFA Generator</b> {{ state.text.showsLogs }}</div>
 
       <div class="vp-code-group">
         <div class="tabs">
@@ -184,8 +215,8 @@ const state = reactive(new VM());
         <div class="block active" v-html="state.selectedTabHtml" />
       </div>
 
-      <div v-if="recipe.kind === 'afterFinish'" class="systemText"><b>afterFinish</b> updated project files:</div>
-      <div v-else-if="recipe.kind !== 'checker'" class="systemText"><b>ARFA Generator</b> generated files:</div>
+      <div v-if="recipe.kind === 'afterFinish'" class="systemText"><b>afterFinish</b> {{ state.text.updatedFiles }}</div>
+      <div v-else-if="recipe.kind !== 'checker'" class="systemText"><b>ARFA Generator</b> {{ state.text.generatedFiles }}</div>
 
       <div v-if="recipe.kind !== 'checker'" class="vp-code-group">
         <div class="tabs">

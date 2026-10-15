@@ -8,11 +8,11 @@ export const pluginValidatorsRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'PluginValidators-central-api',
     title: {
       ru: 'API-контракты в общей папке',
-      en: '',
+      en: 'API contracts in a shared folder',
     },
     description: {
       ru: 'Для файлов в папке api генерируются схемы валидации в validators/api. Изменение общего типа обновляет зависящие от него схемы валидации',
-      en: '',
+      en: 'Validation schemas are generated in validators/api for files in the api folder. Changing a shared type updates the validation schemas that depend on it',
     },
     plugin: ({ rootDir }) =>
       new PluginValidators([
@@ -99,11 +99,11 @@ export type TypeResponse = { order: TypeOrder };`,
     id: 'PluginValidators-feature-api',
     title: {
       ru: 'API-контракты внутри feature-модулей',
-      en: '',
+      en: 'API contracts within feature modules',
     },
     description: {
       ru: 'Плагин находит папки features/*/api и сохраняет структуру модулей в validators/features',
-      en: '',
+      en: 'The plugin finds features/*/api folders and preserves the module structure in validators/features',
     },
     plugin: ({ rootDir }) =>
       new PluginValidators([

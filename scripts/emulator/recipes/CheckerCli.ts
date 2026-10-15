@@ -8,11 +8,11 @@ export const checkerCliRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'CheckerCli-biome-changed-files',
     title: {
       ru: 'Biome проверяет только изменённые файлы',
-      en: '',
+      en: 'Biome checks only changed files',
     },
     description: {
       ru: 'Если измененных файлов не было (например, были только удаленные), проверка пропускается',
-      en: '',
+      en: 'If no files were changed (for example, if files were only deleted), the check is skipped',
     },
     checker: () =>
       new CheckerCli({
@@ -80,11 +80,11 @@ export const checkerCliRecipeConfigs: Array<TypeSandboxRecipeConfig> = [
     id: 'CheckerCli-vitest-related',
     title: {
       ru: 'Vitest запускает связанные тесты',
-      en: '',
+      en: 'Vitest runs related tests',
     },
     description: {
       ru: 'При полной генерации и после удаления файлов запускаются все тесты, а при инкрементальной - только связанные с изменёнными файлами',
-      en: '',
+      en: 'All tests run during full generation and after files are deleted; incremental generation runs only tests related to changed files',
     },
     checker: () =>
       new CheckerCli({
@@ -170,11 +170,11 @@ it('doubles a number', () => {
     id: 'CheckerCli-typescript',
     title: {
       ru: 'проверка типов через tsc',
-      en: '',
+      en: 'Type checking with tsc',
     },
     description: {
       ru: 'В данном случае tsc запускается для всего проекта, даже если были только удаленные файлы',
-      en: '',
+      en: 'In this example, tsc runs for the entire project, even if files were only deleted',
     },
     checker: () =>
       new CheckerCli({

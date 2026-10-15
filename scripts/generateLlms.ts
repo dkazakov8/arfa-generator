@@ -10,7 +10,7 @@ import type { TypeSandboxRecipe } from './emulator/types';
 
 const projectRoot = path.resolve(import.meta.dirname, '..');
 const docsRoot = path.join(projectRoot, 'vitepress');
-const russianDocsRoot = path.join(docsRoot, 'ru');
+const englishDocsRoot = path.join(docsRoot, 'en');
 const outputPath = path.join(projectRoot, 'llms.md');
 
 const includePattern = /^<!-- @include: (.+?) -->$/gm;
@@ -85,15 +85,6 @@ function readIncludedMarkdown(filePath: string, region?: string): string {
 }
 
 function cleanVitePressMarkup(content: string, data: ReturnType<typeof dynamicData.load>): string {
-  const values: Record<string, string | number> = {
-    version: data.version,
-    sizeForLabel: data.sizeForLabel,
-    builderSize: data.builderSize,
-    checkerSize: data.checkerSize,
-    'metrics.coverage': data.metrics.coverage ?? '—',
-    passedTests: data.passedTests,
-  };
-
   return replaceMarkdownMarkup(content, (markup, codeBlocks) => {
     for (let index = 0; index < codeBlocks.length; index++) {
       const block = codeBlocks[index];
@@ -111,8 +102,12 @@ function cleanVitePressMarkup(content: string, data: ReturnType<typeof dynamicDa
     return markup
       .replace(/<script setup[^>]*>[\s\S]*?<\/script>/g, '')
       .replace(/<br\s*\/?>(?:\n)?/g, '\n')
-      .replace(/<Badge[^>]*>\{\{ data\.version \}\}<\/Badge>/g, `Версия: ${data.version}`)
-      .replace(/\{\{\s*data\.([\w.]+)\s*\}\}/g, (match, name: string) => String(values[name] ?? match))
+      .replace(/<Badge[^>]*>\{\{ data\.version \}\}<\/Badge>/g, `Version: ${data.version}`)
+      .replace(/\{\{\s*data\.([\w.]+)\s*\}\}/g, (match, name: string) => {
+        const value = name === 'metrics.coverage' ? (data.metrics.coverage ?? '—') : data[name as keyof typeof data];
+
+        return typeof value === 'string' || typeof value === 'number' ? String(value) : match;
+      })
       .replace(/<\/?(?:Badge|span)\b[^>]*>/g, '')
       .replace(/<Accordion\b[^>]*title="([^"]+)"[^>]*>/g, (_, title: string) => `\n\n**${title}**\n\n`)
       .replace(/<Accordion\b[^>]*>|<\/Accordion>/g, '')
@@ -135,10 +130,10 @@ function cleanVitePressMarkup(content: string, data: ReturnType<typeof dynamicDa
 }
 
 function formatRecipe(recipe: TypeSandboxRecipe): string {
-  const parts = [`## ${recipe.title.ru || recipe.id}`];
+  const parts = [`## ${recipe.title.en || recipe.id}`];
 
-  if (recipe.description.ru) parts.push(recipe.description.ru);
-  parts.push('### Конфигурация', codeBlock(recipe.pluginCode.content, recipe.pluginCode.lang));
+  if (recipe.description.en) parts.push(recipe.description.en);
+  parts.push('### Configuration', codeBlock(recipe.pluginCode.content, recipe.pluginCode.lang));
 
   let previousFiles = new Map<string, string>();
 
@@ -154,14 +149,14 @@ function formatRecipe(recipe: TypeSandboxRecipe): string {
 
     for (const file of step.files) {
       if (previousFiles.get(file.path) === file.code.content) continue;
-      parts.push(`**Результат: ${file.path}**`, codeBlock(file.code.content, file.code.lang));
+      parts.push(`**Result: ${file.path}**`, codeBlock(file.code.content, file.code.lang));
     }
 
     for (const filePath of previousFiles.keys()) {
-      if (!currentFiles.has(filePath)) parts.push(`**Удалён результат: ${filePath}**`);
+      if (!currentFiles.has(filePath)) parts.push(`**Removed result: ${filePath}**`);
     }
 
-    parts.push('**Вывод генератора**', codeBlock(stripVTControlCharacters(step.consoleNormal.content), 'text'));
+    parts.push('**Generator output**', codeBlock(stripVTControlCharacters(step.consoleNormal.content), 'text'));
 
     previousFiles = currentFiles;
   }
@@ -174,32 +169,32 @@ export function generateLlms(): void {
   const pages = new Set<string>();
   const collectPages = (items: Array<DefaultTheme.SidebarItem>): void => {
     for (const item of items) {
-      if (item.link?.startsWith('/ru/') && !item.link.startsWith('/ru/examples/')) {
-        pages.add(`${item.link.slice('/ru/'.length)}.md`);
+      if (item.link?.startsWith('/en/') && !item.link.startsWith('/en/examples/')) {
+        pages.add(`${item.link.slice('/en/'.length)}.md`);
       }
       if (item.items) collectPages(item.items);
     }
   };
 
-  for (const sidebar of new Set(Object.values(sidebarConfig.ru))) {
+  for (const sidebar of new Set(Object.values(sidebarConfig.en))) {
     collectPages(Array.isArray(sidebar) ? sidebar : sidebar.items);
   }
 
-  for (const page of Array.from(fs.globSync('examples/**/*.md', { cwd: russianDocsRoot })).sort()) {
+  for (const page of Array.from(fs.globSync('examples/**/*.md', { cwd: englishDocsRoot })).sort()) {
     pages.add(page);
   }
 
   const recipeImports = new Map<string, string>();
 
-  for (const fileName of fs.globSync('**/*.md', { cwd: russianDocsRoot })) {
-    const content = fs.readFileSync(path.join(russianDocsRoot, fileName), 'utf8');
+  for (const fileName of fs.globSync('**/*.md', { cwd: englishDocsRoot })) {
+    const content = fs.readFileSync(path.join(englishDocsRoot, fileName), 'utf8');
     for (const [, name, recipeFile] of content.matchAll(recipeImportPattern)) {
       recipeImports.set(name, recipeFile);
     }
   }
 
   const sections = Array.from(pages, (page) => {
-    const sourcePath = path.join(russianDocsRoot, page);
+    const sourcePath = path.join(englishDocsRoot, page);
     const content = readIncludedMarkdown(sourcePath)
       .replace(/^---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/, '')
       .replace(/<CodeView framework="([^"]+)" :tree="examplesTree" \/>/g, (_, framework: string) => {
@@ -227,7 +222,7 @@ export function generateLlms(): void {
     return cleanVitePressMarkup(content, data).trim();
   });
 
-  const content = `# ARFA Generator — документация для LLM\n\n${sections.join('\n\n---\n\n')}\n`;
+  const content = `# ARFA Generator — documentation for LLMs\n\n${sections.join('\n\n---\n\n')}\n`;
 
   if (!fs.existsSync(outputPath) || fs.readFileSync(outputPath, 'utf8') !== content) {
     fs.writeFileSync(outputPath, content, 'utf8');
