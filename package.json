@@ -3,7 +3,7 @@
   "author": "Dmitry Kazakov",
   "license": "MIT",
   "type": "module",
-  "version": "0.0.1-alpha.25",
+  "version": "1.0.0",
   "description": "An automation core for frontend development workflows",
   "homepage": "https://dkazakov8.github.io/arfa-generator/",
   "bugs": {
