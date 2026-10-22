@@ -2,7 +2,7 @@
 
 # Overview and purpose
 
-Version: 0.0.1-alpha.25
+Version: 1.0.0
 Size: 9.39 KB
 Coverage: 99.83 % across 300 tests
 
@@ -6559,7 +6559,7 @@ if (isWatch) {
   },
   "dependencies": {
     "@vitejs/plugin-react": "6.1.2",
-    "@arfa-tools/generator": "0.0.1-alpha.25",
+    "@arfa-tools/generator": "1.0.0",
     "vite": "8.3.5",
     "react": "19.3.1",
     "react-dom": "19.3.1"
